@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Собери дорожку</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#dff5ff;
+}
+
+/* =========================
+   ИГРОВОЙ ЭКРАН
+========================= */
+
+.game{
+    width:100vw;
+    height:100vh;
+
+    max-width:177.78vh;
+    max-height:56.25vw;
+
+    position:relative;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding:2vh 3vw;
+
+    background:
+        radial-gradient(circle at 50% 40%,#ffffff 0%,#e9f9ff 45%,#cdefff 100%);
+}
+
+/* =========================
+   ЗАГОЛОВОК
+========================= */
+
+.header{
+    width:100%;
+    text-align:center;
+}
+
+.header h1{
+    margin:0;
+
+    color:#346c8f;
+
+    font-size:clamp(25px,3vw,46px);
+
+    font-weight:900;
+}
+
+.header p{
+    margin:.3em 0;
+
+    color:#567487;
+
+    font-size:clamp(13px,1.4vw,19px);
+
+    font-weight:700;
+}
+
+/* =========================
+   ПОЛЕ
+========================= */
+
+.board-wrap{
+    flex:1;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.board{
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,clamp(70px,8vw,115px));
+
+    grid-template-rows:
+        repeat(4,clamp(70px,8vw,115px));
+
+    gap:clamp(6px,.7vw,10px);
+
+    padding:clamp(10px,1vw,16px);
+
+    background:rgba(255,255,255,.65);
+
+    border-radius:28px;
+
+    box-shadow:
+        0 12px 35px rgba(47,100,130,.15);
+}
+
+/* =========================
+   ЯЧЕЙКА
+========================= */
+
+.cell{
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,.8);
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    transition:.15s;
+
+    overflow:hidden;
+}
+
+.cell:hover{
+    transform:scale(1.03);
+}
+
+.cell:active{
+    transform:scale(.96);
+}
+
+/* =========================
+   ТРУБА
+========================= */
+
+.pipe{
+    width:100%;
+    height:100%;
+
+    position:relative;
+
+    transition:
+        transform .25s ease;
+
+    pointer-events:none;
+}
+
+/* прямая труба */
+
+.pipe.straight::before{
+    content:"";
+
+    position:absolute;
+
+    width:34%;
+    height:110%;
+
+    left:33%;
+    top:-5%;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #447f9f,
+            #83c9e9,
+            #d7f5ff,
+            #66b6da,
+            #34728f
+        );
+
+    box-shadow:
+        inset 0 0 0 3px rgba(40,90,120,.15);
+}
+
+/* угол */
+
+.pipe.corner::before,
+.pipe.corner::after{
+    content:"";
+
+    position:absolute;
+
+    background:
+        linear-gradient(
+            90deg,
+            #447f9f,
+            #83c9e9,
+            #d7f5ff,
+            #66b6da,
+            #34728f
+        );
+}
+
+.pipe.corner::before{
+    width:34%;
+    height:67%;
+
+    left:33%;
+    top:0;
+
+    border-radius:14px 14px 0 0;
+}
+
+.pipe.corner::after{
+    width:67%;
+    height:34%;
+
+    left:33%;
+    top:33%;
+
+    border-radius:0 14px 14px 0;
+}
+
+/* =========================
+   СТАРТ И ФИНИШ
+========================= */
+
+.start,
+.finish-point{
+    cursor:default;
+}
+
+.start{
+    background:#dff8e4;
+}
+
+.finish-point{
+    background:#fff0cc;
+}
+
+.icon{
+    position:absolute;
+
+    z-index:5;
+
+    font-size:clamp(27px,3vw,45px);
+
+    pointer-events:none;
+}
+
+.start-label,
+.finish-label{
+    position:absolute;
+
+    bottom:4px;
+
+    z-index:6;
+
+    font-size:clamp(9px,.8vw,12px);
+
+    font-weight:900;
+}
+
+.start-label{
+    color:#438657;
+}
+
+.finish-label{
+    color:#b27b25;
+}
+
+/* =========================
+   РЕЧЕВАЯ КАРТИНКА
+========================= */
+
+.speech-picture{
+    position:absolute;
+
+    z-index:10;
+
+    width:38%;
+    height:38%;
+
+    right:3px;
+    bottom:3px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.15);
+
+    font-size:clamp(16px,2vw,27px);
+
+    pointer-events:none;
+}
+
+/* =========================
+   ПОБЕДА
+========================= */
+
+.win{
+    position:absolute;
+
+    inset:0;
+
+    z-index:50;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(220,245,255,.72);
+
+    backdrop-filter:blur(7px);
+}
+
+.win.show{
+    display:flex;
+}
+
+.win-card{
+    width:min(70%,600px);
+
+    padding:4vh 4vw;
+
+    text-align:center;
+
+    background:white;
+
+    border-radius:35px;
+
+    box-shadow:
+        0 20px 50px rgba(50,90,120,.2);
+
+    animation:winPop .45s ease;
+}
+
+@keyframes winPop{
+
+    from{
+        opacity:0;
+        transform:scale(.6);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.win-icon{
+    font-size:clamp(55px,8vw,110px);
+}
+
+.win h2{
+    margin:.2em 0;
+
+    color:#397897;
+
+    font-size:clamp(30px,4vw,55px);
+}
+
+.win p{
+    color:#607887;
+
+    font-size:clamp(16px,1.8vw,23px);
+
+    font-weight:700;
+}
+
+.win button{
+    border:0;
+
+    padding:.8em 2.3em;
+
+    border-radius:999px;
+
+    background:#68badd;
+
+    color:white;
+
+    font-size:clamp(16px,1.6vw,22px);
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 7px 18px rgba(55,120,155,.25);
+}
+
+/* =========================
+   ПОДСКАЗКА
+========================= */
+
+.hint{
+    margin-bottom:.5vh;
+
+    color:#4d7186;
+
+    font-size:clamp(12px,1.2vw,17px);
+
+    font-weight:700;
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="game">
+
+<div class="header">
+
+    <h1>🔧 Почини трубы!</h1>
+
+    <p>
+        Нажимай на трубы и собери дорожку
+        от старта до финиша
+    </p>
+
+</div>
+
+
+<div class="board-wrap">
+
+    <div
+        class="board"
+        id="board">
+    </div>
+
+</div>
+
+
+<div class="hint">
+    💡 Каждое нажатие поворачивает трубу
+</div>
+
+
+<!-- ПОБЕДА -->
+
+<div
+    class="win"
+    id="win">
+
+    <div class="win-card">
+
+        <div class="win-icon">
+            💦
+        </div>
+
+        <h2>
+            Получилось!
+        </h2>
+
+        <p>
+            Ты правильно соединил трубы!
+        </p>
+
+        <button id="restartButton">
+            Играть ещё раз
+        </button>
+
+    </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   НАПРАВЛЕНИЯ
+
+   0 = вверх
+   1 = вправо
+   2 = вниз
+   3 = влево
+========================================================= */
+
+
+/* =========================================================
+   ГОТОВОЕ РЕШЕНИЕ
+
+   Здесь заранее задан правильный маршрут.
+========================================================= */
+
+const level=[
+
+    /* РЯД 1 */
+
+    {type:"start",rotation:1},
+
+    {type:"straight",rotation:1},
+
+    {type:"corner",rotation:1},
+
+    {type:"corner",rotation:2},
+
+    {type:"straight",rotation:0},
+
+
+    /* РЯД 2 */
+
+    {type:"corner",rotation:0},
+
+    {type:"straight",rotation:1},
+
+    {type:"corner",rotation:2},
+
+    {type:"straight",rotation:0},
+
+    {type:"corner",rotation:3},
+
+
+    /* РЯД 3 */
+
+    {type:"corner",rotation:1},
+
+    {type:"straight",rotation:1},
+
+    {type:"corner",rotation:3},
+
+    {type:"corner",rotation:0},
+
+    {type:"straight",rotation:1},
+
+
+    /* РЯД 4 */
+
+    {type:"straight",rotation:0},
+
+    {type:"corner",rotation:0},
+
+    {type:"straight",rotation:1},
+
+    {type:"straight",rotation:1},
+
+    {type:"finish",rotation:3}
+
+];
+
+
+/* =========================================================
+   ПРАВИЛЬНЫЕ ПОВОРОТЫ
+
+   Для тестовой версии проверяем,
+   совпали ли все трубы с нужным положением.
+========================================================= */
+
+const solution=[
+
+    1,1,1,2,0,
+
+    0,1,2,0,3,
+
+    1,1,3,0,1,
+
+    0,0,1,1,3
+
+];
+
+
+/* =========================================================
+   РЕЧЕВЫЕ МЕТКИ
+
+   Пока используем эмодзи.
+   Потом здесь будут PNG-картинки:
+   шапка, шар, шкаф, мышь и т.д.
+========================================================= */
+
+const speechItems={
+
+    2:"🎈",
+    6:"🐭",
+    8:"🚗",
+    12:"🐱",
+    16:"🧢"
+
+};
+
+
+/* =========================================================
+   ЭЛЕМЕНТЫ
+========================================================= */
+
+const board=
+    document.getElementById("board");
+
+const win=
+    document.getElementById("win");
+
+const restartButton=
+    document.getElementById("restartButton");
+
+
+let rotations=[];
+
+
+/* =========================================================
+   СЛУЧАЙНЫЙ ПОВОРОТ
+========================================================= */
+
+function randomRotation(){
+
+    return Math.floor(
+        Math.random()*4
+    );
+
+}
+
+
+/* =========================================================
+   СОЗДАНИЕ ИГРЫ
+========================================================= */
+
+function createGame(){
+
+    board.innerHTML="";
+
+    win.classList.remove("show");
+
+    rotations=[];
+
+
+    level.forEach(
+        (item,index)=>{
+
+
+            const cell=
+                document.createElement("div");
+
+
+            cell.className=
+                "cell";
+
+
+            /* =========================
+               СТАРТ
+            ========================= */
+
+            if(item.type==="start"){
+
+                cell.classList.add(
+                    "start"
+                );
+
+
+                cell.innerHTML=`
+                    <div class="icon">🚰</div>
+                    <div class="start-label">
+                        СТАРТ
+                    </div>
+                `;
+
+
+                rotations[index]=
+                    solution[index];
+
+
+                board.appendChild(cell);
+
+                return;
+
+            }
+
+
+            /* =========================
+               ФИНИШ
+            ========================= */
+
+            if(item.type==="finish"){
+
+                cell.classList.add(
+                    "finish-point"
+                );
+
+
+                cell.innerHTML=`
+                    <div class="icon">🌻</div>
+                    <div class="finish-label">
+                        ФИНИШ
+                    </div>
+                `;
+
+
+                rotations[index]=
+                    solution[index];
+
+
+                board.appendChild(cell);
+
+                return;
+
+            }
+
+
+            /* =========================
+               ТРУБА
+            ========================= */
+
+            const pipe=
+                document.createElement("div");
+
+
+            pipe.className=
+                "pipe "+item.type;
+
+
+            let rotation=
+                randomRotation();
+
+
+            rotations[index]=rotation;
+
+
+            pipe.style.transform=
+                `rotate(${rotation*90}deg)`;
+
+
+            cell.appendChild(pipe);
+
+
+            /* =========================
+               РЕЧЕВАЯ КАРТИНКА
+            ========================= */
+
+            if(
+                speechItems[index]
+            ){
+
+                const speech=
+                    document.createElement(
+                        "div"
+                    );
+
+
+                speech.className=
+                    "speech-picture";
+
+
+                speech.textContent=
+                    speechItems[index];
+
+
+                cell.appendChild(
+                    speech
+                );
+
+            }
+
+
+            /* =========================
+               ПОВОРОТ
+            ========================= */
+
+            cell.addEventListener(
+                "click",
+                ()=>{
+
+
+                    rotations[index]=
+                        (
+                            rotations[index]+1
+                        )%4;
+
+
+                    pipe.style.transform=
+                        `rotate(${rotations[index]*90}deg)`;
+
+
+                    playTurnSound();
+
+
+                    checkWin();
+
+                }
+            );
+
+
+            board.appendChild(
+                cell
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ПРОВЕРКА
+========================================================= */
+
+function checkWin(){
+
+    let correct=true;
+
+
+    for(
+        let i=0;
+        i<solution.length;
+        i++
+    ){
+
+        /*
+        Старт и финиш
+        не поворачиваются
+        */
+
+        if(
+            level[i].type==="start" ||
+            level[i].type==="finish"
+        ){
+            continue;
+        }
+
+
+        /*
+        Для прямой трубы
+        0 и 2 одинаковы,
+        1 и 3 одинаковы.
+        */
+
+        if(
+            level[i].type==="straight"
+        ){
+
+            if(
+                rotations[i]%2 !==
+                solution[i]%2
+            ){
+
+                correct=false;
+
+                break;
+
+            }
+
+        }
+
+        else{
+
+            if(
+                rotations[i] !==
+                solution[i]
+            ){
+
+                correct=false;
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+    if(correct){
+
+        setTimeout(
+            showWin,
+            350
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ПОБЕДА
+========================================================= */
+
+function showWin(){
+
+    playWinSound();
+
+    win.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   ЗВУК ПОВОРОТА
+========================================================= */
+
+let audioContext=null;
+
+
+function getAudio(){
+
+    if(!audioContext){
+
+        audioContext=
+            new(
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    return audioContext;
+
+}
+
+
+function playTurnSound(){
+
+    try{
+
+        const ctx=
+            getAudio();
+
+
+        const osc=
+            ctx.createOscillator();
+
+
+        const gain=
+            ctx.createGain();
+
+
+        osc.type="sine";
+
+        osc.frequency.value=260;
+
+
+        gain.gain.setValueAtTime(
+            .04,
+            ctx.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            ctx.currentTime+.08
+        );
+
+
+        osc.connect(gain);
+
+        gain.connect(
+            ctx.destination
+        );
+
+
+        osc.start();
+
+        osc.stop(
+            ctx.currentTime+.08
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+/* =========================================================
+   ЗВУК ПОБЕДЫ
+========================================================= */
+
+function playWinSound(){
+
+    try{
+
+        const ctx=
+            getAudio();
+
+
+        const notes=[
+            523,
+            659,
+            784,
+            1046
+        ];
+
+
+        notes.forEach(
+            (frequency,index)=>{
+
+
+                const osc=
+                    ctx.createOscillator();
+
+
+                const gain=
+                    ctx.createGain();
+
+
+                osc.frequency.value=
+                    frequency;
+
+
+                gain.gain.value=.07;
+
+
+                osc.connect(gain);
+
+                gain.connect(
+                    ctx.destination
+                );
+
+
+                const start=
+                    ctx.currentTime+
+                    index*.12;
+
+
+                osc.start(start);
+
+                osc.stop(
+                    start+.18
+                );
+
+            }
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+/* =========================================================
+   ПЕРЕЗАПУСК
+========================================================= */
+
+restartButton.addEventListener(
+    "click",
+    createGame
+);
+
+
+/* =========================================================
+   ЗАПУСК
+========================================================= */
+
+createGame();
+
+</script>
+
+</body>
+</html>
