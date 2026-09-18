@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Почини трубы</title>
+<title>Почини трубы!</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     user-select:none;
@@ -29,37 +27,25 @@ body{
     align-items:center;
 }
 
-/* =========================================================
-   ИГРА 16:9
-========================================================= */
-
 .game{
     width:100vw;
     height:100vh;
-
     max-width:177.78vh;
     max-height:56.25vw;
-
     position:relative;
     overflow:hidden;
-
     display:flex;
     flex-direction:column;
-
-    padding:1.5vh 2vw;
+    padding:1.2vh 1.8vw;
 
     background:
-        radial-gradient(
-            circle at 50% 40%,
-            #ffffff 0%,
-            #eaf9ff 48%,
-            #ccefff 100%
-        );
+        radial-gradient(circle at 50% 40%,
+        #ffffff 0%,
+        #eaf9ff 48%,
+        #ccefff 100%);
 }
 
-/* =========================================================
-   ЗАГОЛОВОК
-========================================================= */
+/* ================= HEADER ================= */
 
 .header{
     text-align:center;
@@ -68,25 +54,50 @@ body{
 
 .header h1{
     margin:0;
-
     color:#326f92;
-
-    font-size:clamp(28px,3vw,48px);
+    font-size:clamp(26px,2.7vw,46px);
     font-weight:900;
 }
 
 .header p{
-    margin:.15em 0 .25em;
-
+    margin:.1em 0 .15em;
     color:#58768a;
-
-    font-size:clamp(13px,1.25vw,19px);
+    font-size:clamp(12px,1.1vw,17px);
     font-weight:700;
 }
 
-/* =========================================================
-   ОСНОВНАЯ ОБЛАСТЬ
-========================================================= */
+.level-info{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:.25em 0 .15em;
+}
+
+.level-text{
+    color:#6b5ba7;
+    font-weight:900;
+    font-size:clamp(13px,1.15vw,18px);
+}
+
+.dots{
+    display:flex;
+    gap:6px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#d9cff2;
+}
+
+.dot.active{
+    background:#7658b1;
+    transform:scale(1.18);
+}
+
+/* ================= LAYOUT ================= */
 
 .game-area{
     flex:1;
@@ -99,37 +110,27 @@ body{
         minmax(600px,2.8fr)
         minmax(190px,1.15fr);
 
-    gap:clamp(18px,2.2vw,38px);
-
+    gap:clamp(16px,2vw,34px);
     align-items:center;
 }
 
-/* =========================================================
-   БОКОВЫЕ ПАНЕЛИ
-========================================================= */
-
 .side-panel{
     height:100%;
-
     display:flex;
     flex-direction:column;
-
     justify-content:center;
-
-    gap:clamp(14px,1.7vh,22px);
+    align-items:center;
+    gap:clamp(8px,1.1vh,14px);
 }
 
-/* =========================================================
-   КАРТОЧКИ
-========================================================= */
+/* ================= CARDS ================= */
 
 .speech-card{
     width:100%;
-    max-width:230px;
-
-    aspect-ratio:1.35;
-
-    margin:auto;
+    max-width:225px;
+    flex:1;
+    max-height:145px;
+    min-height:80px;
 
     position:relative;
 
@@ -139,14 +140,12 @@ body{
 
     overflow:hidden;
 
-    border-radius:28px;
-
+    border-radius:25px;
     background:white;
-
     border:5px solid rgba(255,255,255,.95);
 
     box-shadow:
-        0 10px 25px rgba(55,100,130,.16);
+        0 9px 23px rgba(55,100,130,.15);
 
     transition:.35s;
 }
@@ -154,7 +153,6 @@ body{
 .card-cover{
     position:absolute;
     inset:0;
-
     z-index:5;
 
     display:flex;
@@ -162,37 +160,30 @@ body{
     align-items:center;
 
     background:
-        linear-gradient(
-            145deg,
-            #d8caf7,
-            #eee8ff
-        );
+        linear-gradient(145deg,#d8caf7,#eee8ff);
 
     color:#7558ae;
 
-    font-size:clamp(48px,5vw,78px);
+    font-size:clamp(38px,4vw,68px);
     font-weight:900;
 
     transition:.35s;
 }
 
 .card-picture{
-    font-size:clamp(55px,5.5vw,88px);
+    font-size:clamp(42px,4.8vw,76px);
 
     opacity:0;
-
-    transform:scale(.4);
-
+    transform:scale(.35);
     transition:.4s;
 }
 
 .speech-card.revealed{
     border-color:#83d49a;
-
-    transform:scale(1.04);
+    transform:scale(1.03);
 
     box-shadow:
-        0 10px 28px rgba(60,155,90,.23);
+        0 10px 27px rgba(60,155,90,.23);
 }
 
 .speech-card.revealed .card-cover{
@@ -203,28 +194,16 @@ body{
 .speech-card.revealed .card-picture{
     opacity:1;
     transform:scale(1);
-
     animation:picturePop .45s ease;
 }
 
 @keyframes picturePop{
-
-    0%{
-        transform:scale(.3);
-    }
-
-    70%{
-        transform:scale(1.17);
-    }
-
-    100%{
-        transform:scale(1);
-    }
+    0%{transform:scale(.3);}
+    70%{transform:scale(1.18);}
+    100%{transform:scale(1);}
 }
 
-/* =========================================================
-   ЦЕНТР
-========================================================= */
+/* ================= CENTER ================= */
 
 .center{
     height:100%;
@@ -238,37 +217,24 @@ body{
     min-width:0;
 }
 
-/* =========================================================
-   ПОЛЕ 4 × 3 — УВЕЛИЧЕННОЕ
-========================================================= */
+/* ================= BOARD ================= */
 
 .board{
     display:grid;
 
-    grid-template-columns:
-        repeat(4,clamp(105px,10vw,150px));
-
-    grid-template-rows:
-        repeat(3,clamp(105px,10vw,150px));
-
     gap:0;
 
-    padding:24px;
+    padding:22px;
 
     position:relative;
 
-    background:
-        rgba(255,255,255,.76);
+    background:rgba(255,255,255,.76);
 
     border-radius:34px;
 
     box-shadow:
         0 18px 42px rgba(50,100,130,.18);
 }
-
-/* =========================================================
-   ЯЧЕЙКА
-========================================================= */
 
 .cell{
     position:relative;
@@ -281,17 +247,22 @@ body{
 
     cursor:pointer;
 
-    background:
-        rgba(255,255,255,.20);
+    background:rgba(255,255,255,.16);
 }
 
 .cell.empty{
     cursor:default;
 }
 
-/* =========================================================
-   SVG ТРУБЫ
-========================================================= */
+.cell.correct{
+    background:
+        radial-gradient(
+        circle,
+        rgba(215,250,225,.72),
+        rgba(255,255,255,.10));
+}
+
+/* ================= PIPES ================= */
 
 .pipe-svg{
     width:100%;
@@ -299,92 +270,52 @@ body{
 
     overflow:visible;
 
-    transition:
-        transform .25s ease;
+    transition:transform .25s ease;
 
     pointer-events:none;
 }
 
 .pipe-base{
     fill:none;
-
     stroke:#467f9d;
-
     stroke-width:34;
-
     stroke-linecap:butt;
     stroke-linejoin:round;
 }
 
 .pipe-inner{
     fill:none;
-
     stroke:#b9e5f5;
-
     stroke-width:23;
-
     stroke-linecap:butt;
     stroke-linejoin:round;
 }
 
 .pipe-water{
     fill:none;
-
     stroke:#20b9ff;
-
     stroke-width:12;
-
     stroke-linecap:round;
     stroke-linejoin:round;
 
     opacity:0;
 
     filter:
-        drop-shadow(
-            0 0 5px rgba(30,180,255,.8)
-        );
+        drop-shadow(0 0 5px rgba(30,180,255,.8));
 }
-
-/* =========================================================
-   ПРАВИЛЬНАЯ ТРУБА
-========================================================= */
-
-.cell.correct{
-    background:
-        radial-gradient(
-            circle,
-            rgba(215,250,225,.75),
-            rgba(255,255,255,.12)
-        );
-}
-
-/* =========================================================
-   ВОДА
-========================================================= */
 
 .cell.water-on .pipe-water{
     opacity:1;
-
     stroke-dasharray:18 10;
-
-    animation:
-        waterMove .5s linear infinite;
+    animation:waterMove .5s linear infinite;
 }
 
 @keyframes waterMove{
-
-    from{
-        stroke-dashoffset:28;
-    }
-
-    to{
-        stroke-dashoffset:0;
-    }
+    from{stroke-dashoffset:28;}
+    to{stroke-dashoffset:0;}
 }
 
-/* =========================================================
-   СТАРТ / ФИНИШ
-========================================================= */
+/* ================= ENDPOINTS ================= */
 
 .endpoint{
     cursor:default;
@@ -401,8 +332,7 @@ body{
 
     position:relative;
 
-    border-radius:25px;
-
+    border-radius:24px;
     background:white;
 
     box-shadow:
@@ -410,16 +340,14 @@ body{
 }
 
 .endpoint-icon{
-    font-size:clamp(45px,5vw,72px);
+    font-size:clamp(40px,4.5vw,68px);
 }
 
 .endpoint-label{
     position:absolute;
+    bottom:5px;
 
-    bottom:6px;
-
-    font-size:clamp(10px,.85vw,14px);
-
+    font-size:clamp(9px,.75vw,13px);
     font-weight:900;
 }
 
@@ -439,14 +367,10 @@ body{
     color:#a97824;
 }
 
-/* =========================================================
-   ПОДСКАЗКА
-========================================================= */
-
 .hint{
-    margin-top:1.4vh;
+    margin-top:1vh;
 
-    padding:.55em 1.5em;
+    padding:.5em 1.4em;
 
     background:rgba(255,255,255,.78);
 
@@ -454,30 +378,23 @@ body{
 
     color:#55778b;
 
-    font-size:clamp(14px,1.25vw,19px);
-
+    font-size:clamp(12px,1.1vw,17px);
     font-weight:700;
 }
 
-/* =========================================================
-   ПОБЕДА
-========================================================= */
+/* ================= WIN ================= */
 
 .win{
     position:absolute;
-
     inset:0;
 
     z-index:100;
 
     display:none;
-
     justify-content:center;
     align-items:center;
 
-    background:
-        rgba(220,246,255,.73);
-
+    background:rgba(220,246,255,.75);
     backdrop-filter:blur(7px);
 }
 
@@ -486,9 +403,9 @@ body{
 }
 
 .win-card{
-    width:min(68%,620px);
+    width:min(65%,600px);
 
-    padding:4vh 4vw;
+    padding:3.5vh 4vw;
 
     text-align:center;
 
@@ -503,12 +420,10 @@ body{
 }
 
 @keyframes winPop{
-
     from{
         opacity:0;
         transform:scale(.6);
     }
-
     to{
         opacity:1;
         transform:scale(1);
@@ -516,21 +431,19 @@ body{
 }
 
 .win-icon{
-    font-size:clamp(60px,8vw,105px);
+    font-size:clamp(55px,7vw,95px);
 }
 
 .win h2{
-    margin:.15em 0;
-
+    margin:.1em 0;
     color:#377c9f;
-
-    font-size:clamp(30px,4vw,58px);
+    font-size:clamp(28px,3.6vw,52px);
 }
 
 .win p{
     color:#627b89;
 
-    font-size:clamp(15px,1.7vw,22px);
+    font-size:clamp(14px,1.5vw,21px);
 
     font-weight:700;
 }
@@ -538,16 +451,12 @@ body{
 .win button{
     border:0;
 
-    padding:.8em 2.3em;
+    padding:.8em 2.4em;
 
     border-radius:999px;
 
     background:
-        linear-gradient(
-            135deg,
-            #6cc5e9,
-            #369bc8
-        );
+        linear-gradient(135deg,#6cc5e9,#369bc8);
 
     color:white;
 
@@ -561,34 +470,20 @@ body{
         0 7px 18px rgba(55,120,155,.25);
 }
 
-/* =========================================================
-   АДАПТАЦИЯ
-========================================================= */
-
 @media(max-width:900px){
 
     .game-area{
-        grid-template-columns:
-            120px 1fr 120px;
-
-        gap:8px;
+        grid-template-columns:115px 1fr 115px;
+        gap:7px;
     }
 
     .speech-card{
-        max-width:150px;
-        border-radius:18px;
+        max-width:140px;
     }
 
     .board{
         padding:10px;
-
-        grid-template-columns:
-            repeat(4,clamp(65px,10vw,105px));
-
-        grid-template-rows:
-            repeat(3,clamp(65px,10vw,105px));
     }
-
 }
 
 </style>
@@ -598,110 +493,89 @@ body{
 
 <main class="game">
 
-<div class="header">
+    <div class="header">
 
-    <h1>
-        🔧 Почини трубы!
-    </h1>
-
-    <p>
-        Поворачивай трубы и проведи воду от крана к цветку
-    </p>
-
-</div>
-
-
-<div class="game-area">
-
-    <!-- ЛЕВЫЕ КАРТОЧКИ -->
-
-    <div class="side-panel">
-
-        <div class="speech-card" data-card="0">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🎈</div>
-        </div>
-
-        <div class="speech-card" data-card="1">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🐭</div>
-        </div>
-
-        <div class="speech-card" data-card="2">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🚗</div>
-        </div>
-
-    </div>
-
-
-    <!-- ЦЕНТР -->
-
-    <div class="center">
-
-        <div
-            class="board"
-            id="board">
-        </div>
-
-        <div class="hint">
-            💡 Нажимай на трубы, чтобы их поворачивать
-        </div>
-
-    </div>
-
-
-    <!-- ПРАВЫЕ КАРТОЧКИ -->
-
-    <div class="side-panel">
-
-        <div class="speech-card" data-card="3">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🧢</div>
-        </div>
-
-        <div class="speech-card" data-card="4">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🐱</div>
-        </div>
-
-        <div class="speech-card" data-card="5">
-            <div class="card-cover">?</div>
-            <div class="card-picture">🛞</div>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ПОБЕДА -->
-
-<div
-    class="win"
-    id="win">
-
-    <div class="win-card">
-
-        <div class="win-icon">
-            💦🌻
-        </div>
-
-        <h2>
-            Получилось!
-        </h2>
+        <h1>🔧 Почини трубы!</h1>
 
         <p>
-            Вода дошла от крана до цветка!
+            Поворачивай трубы и проведи воду от крана к цветку
         </p>
 
-        <button id="restartButton">
-            Играть ещё раз
-        </button>
+        <div class="level-info">
+
+            <span
+                class="level-text"
+                id="levelText">
+                Уровень 1 из 4
+            </span>
+
+            <div
+                class="dots"
+                id="dots">
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+
+    <div class="game-area">
+
+        <div
+            class="side-panel"
+            id="leftPanel">
+        </div>
+
+
+        <div class="center">
+
+            <div
+                class="board"
+                id="board">
+            </div>
+
+            <div class="hint">
+                💡 Нажимай на трубы, чтобы их поворачивать
+            </div>
+
+        </div>
+
+
+        <div
+            class="side-panel"
+            id="rightPanel">
+        </div>
+
+    </div>
+
+
+    <div
+        class="win"
+        id="win">
+
+        <div class="win-card">
+
+            <div
+                class="win-icon"
+                id="winIcon">
+                💦🌻
+            </div>
+
+            <h2 id="winTitle">
+                Уровень пройден!
+            </h2>
+
+            <p id="winText">
+                Вода дошла до цветка!
+            </p>
+
+            <button id="nextButton">
+                Дальше →
+            </button>
+
+        </div>
+
+    </div>
 
 </main>
 
@@ -723,101 +597,339 @@ const OPPOSITE={
 
 
 /* =========================================================
-   УРОВЕНЬ
+   РЕЧЕВЫЕ КАРТИНКИ
 
-   Поле:
-
-   0   1   2   3
-   4   5   6   7
-   8   9  10  11
-
-   Путь:
-
-   🚰 → 1 → 2
-             ↓
-             6 → 7
-                 ↓
-                 🌱
+   ПОКА ТЕСТОВЫЕ.
+   ПОТОМ ЗАМЕНИМ НА PNG.
 ========================================================= */
 
-const level=[
-
-    {
-        type:"start"
-    },
-
-    {
-        type:"straight",
-        target:["W","E"],
-        card:0
-    },
-
-    {
-        type:"corner",
-        target:["W","S"],
-        card:1
-    },
-
-    {
-        type:"empty"
-    },
-
-
-    {
-        type:"empty"
-    },
-
-    {
-        type:"empty"
-    },
-
-    {
-        type:"corner",
-        target:["N","E"],
-        card:2
-    },
-
-    {
-        type:"corner",
-        target:["W","S"],
-        card:3
-    },
-
-
-    {
-        type:"empty"
-    },
-
-    {
-        type:"empty"
-    },
-
-    {
-        type:"empty"
-    },
-
-    {
-        type:"finish"
-    }
-
+const pictures=[
+    "🎈",
+    "🐭",
+    "🚗",
+    "🧢",
+    "🐱",
+    "🛞",
+    "🧥"
 ];
 
 
-/*
-Две дополнительные карточки
-открываем вместе с двумя
-последними трубами.
-*/
+/* =========================================================
+   4 УРОВНЯ
 
-const extraCards={
-    6:4,
-    7:5
-};
+   Все поля 4 × 3.
+
+   path — реальный путь воды.
+
+   В каждой трубе:
+   type
+   target
+   card
+========================================================= */
+
+const levels=[
+
+
+/* =========================================================
+   УРОВЕНЬ 1
+   4 ТРУБЫ
+========================================================= */
+
+{
+    cols:4,
+    rows:3,
+
+    startIndex:0,
+    startDirection:"E",
+
+    finishIndex:11,
+    finishIncoming:"N",
+
+    required:[1,2,6,7],
+
+    cells:[
+
+        {type:"start"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:0
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:1
+        },
+
+        {type:"empty"},
+
+
+        {type:"empty"},
+        {type:"empty"},
+
+        {
+            type:"corner",
+            target:["N","E"],
+            card:2
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:3
+        },
+
+
+        {type:"empty"},
+        {type:"empty"},
+        {type:"empty"},
+
+        {type:"finish"}
+
+    ]
+},
+
+
+/* =========================================================
+   УРОВЕНЬ 2
+   5 ТРУБ
+
+   🚰 → → ↓
+          ↓
+       ← ←
+       ↓
+       🌻
+========================================================= */
+
+{
+    cols:4,
+    rows:3,
+
+    startIndex:0,
+    startDirection:"E",
+
+    finishIndex:9,
+    finishIncoming:"N",
+
+    required:[1,2,6,5,9],
+
+    cells:[
+
+        {type:"start"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:0
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:1
+        },
+
+        {type:"empty"},
+
+
+        {type:"empty"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:3
+        },
+
+        {
+            type:"corner",
+            target:["N","W"],
+            card:2
+        },
+
+        {type:"empty"},
+
+
+        {type:"empty"},
+
+        {
+            type:"finish"
+        },
+
+        {type:"empty"},
+        {type:"empty"}
+
+    ],
+
+    /*
+    Дополнительная труба непосредственно
+    перед финишем визуально создаётся
+    в ячейке 9 через endpoint.
+    Поэтому для уровня 2 речевых карточек 4.
+    */
+},
+
+
+/* =========================================================
+   УРОВЕНЬ 3
+   6 ТРУБ
+========================================================= */
+
+{
+    cols:4,
+    rows:3,
+
+    startIndex:0,
+    startDirection:"E",
+
+    finishIndex:8,
+    finishIncoming:"E",
+
+    required:[1,2,6,7,11,10,9],
+
+    cells:[
+
+        {type:"start"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:0
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:1
+        },
+
+        {type:"empty"},
+
+
+        {type:"empty"},
+        {type:"empty"},
+
+        {
+            type:"corner",
+            target:["N","E"],
+            card:2
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:3
+        },
+
+
+        {type:"finish"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:5
+        },
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:4
+        },
+
+        {
+            type:"corner",
+            target:["N","W"],
+            card:6
+        }
+
+    ]
+},
+
+
+/* =========================================================
+   УРОВЕНЬ 4
+   7 ТРУБ — ЗМЕЙКА
+========================================================= */
+
+{
+    cols:4,
+    rows:3,
+
+    startIndex:0,
+    startDirection:"E",
+
+    finishIndex:8,
+    finishIncoming:"E",
+
+    required:[1,2,3,7,6,5,9],
+
+    cells:[
+
+        {type:"start"},
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:0
+        },
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:1
+        },
+
+        {
+            type:"corner",
+            target:["W","S"],
+            card:2
+        },
+
+
+        {type:"empty"},
+
+        {
+            type:"corner",
+            target:["E","S"],
+            card:5
+        },
+
+        {
+            type:"straight",
+            target:["W","E"],
+            card:4
+        },
+
+        {
+            type:"corner",
+            target:["N","W"],
+            card:3
+        },
+
+
+        {type:"finish"},
+
+        {
+            type:"corner",
+            target:["N","W"],
+            card:6
+        },
+
+        {type:"empty"},
+        {type:"empty"}
+
+    ]
+}
+
+];
 
 
 /* =========================================================
    СОСТОЯНИЕ
 ========================================================= */
+
+let currentLevel=0;
 
 let rotations={};
 
@@ -833,23 +945,39 @@ let completed=false;
 const board=
     document.getElementById("board");
 
+const leftPanel=
+    document.getElementById("leftPanel");
+
+const rightPanel=
+    document.getElementById("rightPanel");
+
 const win=
     document.getElementById("win");
 
-const restartButton=
-    document.getElementById(
-        "restartButton"
-    );
+const levelText=
+    document.getElementById("levelText");
+
+const dots=
+    document.getElementById("dots");
+
+const winIcon=
+    document.getElementById("winIcon");
+
+const winTitle=
+    document.getElementById("winTitle");
+
+const winText=
+    document.getElementById("winText");
+
+const nextButton=
+    document.getElementById("nextButton");
 
 
 /* =========================================================
-   ПОВОРОТ НАПРАВЛЕНИЯ
+   НАПРАВЛЕНИЯ
 ========================================================= */
 
-function rotateDirection(
-    direction,
-    rotation
-){
+function rotateDirection(direction,rotation){
 
     const index=
         DIRS.indexOf(direction);
@@ -861,14 +989,7 @@ function rotateDirection(
 }
 
 
-/* =========================================================
-   СОЕДИНЕНИЯ ТРУБЫ
-========================================================= */
-
-function getConnections(
-    type,
-    rotation
-){
+function getConnections(type,rotation){
 
     let base;
 
@@ -876,28 +997,21 @@ function getConnections(
 
         base=["N","S"];
 
-    }
-
-    else{
+    }else{
 
         base=["N","E"];
 
     }
 
     return base.map(
-        dir=>
-            rotateDirection(
-                dir,
-                rotation
-            )
+        dir=>rotateDirection(
+            dir,
+            rotation
+        )
     );
 
 }
 
-
-/* =========================================================
-   СРАВНЕНИЕ
-========================================================= */
 
 function sameConnections(a,b){
 
@@ -913,7 +1027,7 @@ function sameConnections(a,b){
 
 
 /* =========================================================
-   SVG ПРЯМОЙ ТРУБЫ
+   SVG
 ========================================================= */
 
 function straightSVG(){
@@ -945,10 +1059,6 @@ function straightSVG(){
 
 }
 
-
-/* =========================================================
-   SVG УГЛА
-========================================================= */
 
 function cornerSVG(){
 
@@ -993,37 +1103,138 @@ function cornerSVG(){
 
 
 /* =========================================================
-   СОЗДАНИЕ ИГРЫ
+   ИНДИКАТОР
+========================================================= */
+
+function updateLevelIndicator(){
+
+    levelText.textContent=
+        `Уровень ${currentLevel+1} из 4`;
+
+    dots.innerHTML="";
+
+    for(let i=0;i<4;i++){
+
+        const dot=
+            document.createElement("div");
+
+        dot.className="dot";
+
+        if(i===currentLevel){
+
+            dot.classList.add("active");
+
+        }
+
+        dots.appendChild(dot);
+
+    }
+
+}
+
+
+/* =========================================================
+   КАРТОЧКИ
+========================================================= */
+
+function createCards(level){
+
+    leftPanel.innerHTML="";
+    rightPanel.innerHTML="";
+
+    const pipeItems=
+        level.cells.filter(
+            item=>
+                item.type==="straight" ||
+                item.type==="corner"
+        );
+
+    const count=
+        pipeItems.length;
+
+    const leftCount=
+        Math.ceil(count/2);
+
+
+    pipeItems.forEach(
+        (item,index)=>{
+
+            const card=
+                document.createElement(
+                    "div"
+                );
+
+            card.className=
+                "speech-card";
+
+            card.dataset.card=
+                item.card;
+
+            card.innerHTML=`
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    ${pictures[item.card] || "⭐"}
+                </div>
+
+            `;
+
+
+            if(index<leftCount){
+
+                leftPanel.appendChild(card);
+
+            }else{
+
+                rightPanel.appendChild(card);
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   СОЗДАНИЕ УРОВНЯ
 ========================================================= */
 
 function createGame(){
 
-    board.innerHTML="";
+    const level=
+        levels[currentLevel];
 
-    win.classList.remove(
-        "show"
-    );
-
-    rotations={};
 
     running=false;
     completed=false;
 
-
-    document
-        .querySelectorAll(
-            ".speech-card"
-        )
-        .forEach(card=>{
-
-            card.classList.remove(
-                "revealed"
-            );
-
-        });
+    rotations={};
 
 
-    level.forEach(
+    win.classList.remove("show");
+
+    board.innerHTML="";
+
+
+    updateLevelIndicator();
+
+    createCards(level);
+
+
+    /* размер поля */
+
+    board.style.gridTemplateColumns=
+        `repeat(${level.cols},clamp(105px,10vw,150px))`;
+
+    board.style.gridTemplateRows=
+        `repeat(${level.rows},clamp(105px,10vw,150px))`;
+
+
+    level.cells.forEach(
         (item,index)=>{
 
 
@@ -1037,24 +1248,20 @@ function createGame(){
             cell.dataset.index=index;
 
 
-            /* ПУСТО */
+            /* EMPTY */
 
             if(item.type==="empty"){
 
-                cell.classList.add(
-                    "empty"
-                );
+                cell.classList.add("empty");
 
-                board.appendChild(
-                    cell
-                );
+                board.appendChild(cell);
 
                 return;
 
             }
 
 
-            /* СТАРТ */
+            /* START */
 
             if(item.type==="start"){
 
@@ -1079,16 +1286,14 @@ function createGame(){
 
                 `;
 
-                board.appendChild(
-                    cell
-                );
+                board.appendChild(cell);
 
                 return;
 
             }
 
 
-            /* ФИНИШ */
+            /* FINISH */
 
             if(item.type==="finish"){
 
@@ -1115,16 +1320,14 @@ function createGame(){
 
                 `;
 
-                board.appendChild(
-                    cell
-                );
+                board.appendChild(cell);
 
                 return;
 
             }
 
 
-            /* ТРУБА */
+            /* PIPE */
 
             cell.innerHTML=
                 item.type==="straight"
@@ -1139,8 +1342,8 @@ function createGame(){
 
 
             /*
-            Ставим трубу в случайное
-            неправильное положение.
+            Начальное положение
+            обязательно неправильное.
             */
 
             let rotation;
@@ -1171,52 +1374,40 @@ function createGame(){
                 `rotate(${rotation*90}deg)`;
 
 
-            /* КЛИК */
-
             cell.addEventListener(
                 "click",
                 ()=>{
 
 
-                    if(
-                        running ||
-                        completed
-                    ){
+                    if(running || completed){
                         return;
                     }
 
 
                     rotations[index]=
-                        (
-                            rotations[index]+1
-                        )%4;
-
-
-                    const newRotation=
-                        rotations[index];
+                        (rotations[index]+1)%4;
 
 
                     svg.style.transform=
-                        `rotate(${newRotation*90}deg)`;
+                        `rotate(${rotations[index]*90}deg)`;
 
 
                     playClick();
 
 
                     updateCell(
-                        index
+                        index,
+                        item
                     );
 
 
-                    checkRealPath();
+                    checkPath();
 
                 }
             );
 
 
-            board.appendChild(
-                cell
-            );
+            board.appendChild(cell);
 
         }
     );
@@ -1225,20 +1416,10 @@ function createGame(){
 
 
 /* =========================================================
-   ПРОВЕРКА ОДНОЙ ТРУБЫ
+   ПРАВИЛЬНАЯ ТРУБА
 ========================================================= */
 
-function updateCell(index){
-
-    const item=
-        level[index];
-
-
-    const cell=
-        board.querySelector(
-            `.cell[data-index="${index}"]`
-        );
-
+function updateCell(index,item){
 
     const current=
         getConnections(
@@ -1254,25 +1435,28 @@ function updateCell(index){
         );
 
 
+    const cell=
+        board.querySelector(
+            `.cell[data-index="${index}"]`
+        );
+
+
     cell.classList.toggle(
         "correct",
         correct
     );
 
 
-    setCard(
-        item.card,
-        correct
-    );
+    const card=
+        document.querySelector(
+            `.speech-card[data-card="${item.card}"]`
+        );
 
 
-    if(
-        extraCards[index] !==
-        undefined
-    ){
+    if(card){
 
-        setCard(
-            extraCards[index],
+        card.classList.toggle(
+            "revealed",
             correct
         );
 
@@ -1282,87 +1466,44 @@ function updateCell(index){
 
 
 /* =========================================================
-   КАРТОЧКИ
-========================================================= */
-
-function setCard(
-    cardNumber,
-    show
-){
-
-    if(
-        cardNumber ===
-        undefined
-    ){
-        return;
-    }
-
-
-    const card=
-        document.querySelector(
-            `.speech-card[data-card="${cardNumber}"]`
-        );
-
-
-    if(!card){
-        return;
-    }
-
-
-    card.classList.toggle(
-        "revealed",
-        show
-    );
-
-}
-
-
-/* =========================================================
-   СОСЕДНЯЯ ЯЧЕЙКА
+   СОСЕД
 ========================================================= */
 
 function neighborIndex(
     index,
-    direction
+    direction,
+    cols,
+    rows
 ){
 
     const row=
-        Math.floor(
-            index/4
-        );
-
+        Math.floor(index/cols);
 
     const col=
-        index%4;
+        index%cols;
 
 
     if(direction==="N"){
 
-        if(row===0){
-            return null;
-        }
+        if(row===0) return null;
 
-        return index-4;
+        return index-cols;
 
     }
 
 
     if(direction==="S"){
 
-        if(row===2){
-            return null;
-        }
+        if(row===rows-1) return null;
 
-        return index+4;
+        return index+cols;
 
     }
 
 
     if(direction==="W"){
 
-        if(col===0){
-            return null;
-        }
+        if(col===0) return null;
 
         return index-1;
 
@@ -1371,9 +1512,7 @@ function neighborIndex(
 
     if(direction==="E"){
 
-        if(col===3){
-            return null;
-        }
+        if(col===cols-1) return null;
 
         return index+1;
 
@@ -1386,32 +1525,55 @@ function neighborIndex(
 
 
 /* =========================================================
-   РЕАЛЬНЫЙ МАРШРУТ
+   НАЧАЛЬНАЯ ТРУБА
+========================================================= */
+
+function firstPipeIndex(level){
+
+    return neighborIndex(
+        level.startIndex,
+        level.startDirection,
+        level.cols,
+        level.rows
+    );
+
+}
+
+
+/* =========================================================
+   ПРОВЕРКА НАСТОЯЩЕГО ПУТИ
 ========================================================= */
 
 function tracePath(){
 
-    /*
-    Кран в ячейке 0.
-    Вода выходит вправо,
-    поэтому первая труба — 1.
-    */
+    const level=
+        levels[currentLevel];
 
-    let currentIndex=1;
 
-    let incoming="W";
+    let currentIndex=
+        firstPipeIndex(level);
+
+
+    let incoming=
+        OPPOSITE[
+            level.startDirection
+        ];
+
 
     const visited=[];
 
 
-    for(
-        let safety=0;
-        safety<20;
-        safety++
-    ){
+    for(let safety=0;safety<40;safety++){
+
+        if(currentIndex===null){
+            return null;
+        }
+
 
         const item=
-            level[currentIndex];
+            level.cells[
+                currentIndex
+            ];
 
 
         if(!item){
@@ -1419,19 +1581,14 @@ function tracePath(){
         }
 
 
-        /* ФИНИШ */
+        /* FINISH */
 
-        if(
-            item.type==="finish"
-        ){
+        if(item.type==="finish"){
 
-            /*
-            Цветок находится под
-            последней трубой,
-            поэтому вода приходит сверху.
-            */
-
-            if(incoming==="N"){
+            if(
+                incoming===
+                level.finishIncoming
+            ){
 
                 return visited;
 
@@ -1442,7 +1599,7 @@ function tracePath(){
         }
 
 
-        /* НЕ ТРУБА */
+        /* NOT PIPE */
 
         if(
             item.type!=="straight" &&
@@ -1461,10 +1618,6 @@ function tracePath(){
             );
 
 
-        /*
-        Проверяем реальный вход.
-        */
-
         if(
             !connections.includes(
                 incoming
@@ -1481,10 +1634,6 @@ function tracePath(){
         );
 
 
-        /*
-        Находим выход.
-        */
-
         const outgoing=
             connections.find(
                 direction=>
@@ -1497,24 +1646,26 @@ function tracePath(){
         }
 
 
-        const nextIndex=
+        const next=
             neighborIndex(
                 currentIndex,
-                outgoing
+                outgoing,
+                level.cols,
+                level.rows
             );
 
 
-        if(nextIndex===null){
+        if(next===null){
             return null;
         }
 
 
         if(
-            visited.includes(
-                nextIndex
-            )
+            visited.includes(next)
         ){
+
             return null;
+
         }
 
 
@@ -1523,7 +1674,7 @@ function tracePath(){
 
 
         currentIndex=
-            nextIndex;
+            next;
 
     }
 
@@ -1534,10 +1685,14 @@ function tracePath(){
 
 
 /* =========================================================
-   ПРОВЕРКА СОБРАННОГО ПУТИ
+   ПРОВЕРКА ПОБЕДЫ
 ========================================================= */
 
-function checkRealPath(){
+function checkPath(){
+
+    const level=
+        levels[currentLevel];
+
 
     const path=
         tracePath();
@@ -1548,32 +1703,25 @@ function checkRealPath(){
     }
 
 
-    const required=[
-        1,
-        2,
-        6,
-        7
-    ];
-
-
     const complete=
-        required.every(
+        level.required.every(
             index=>
                 path.includes(index)
         );
 
 
-    if(complete){
-
-        running=true;
-
-
-        setTimeout(
-            ()=>runWater(path),
-            450
-        );
-
+    if(!complete){
+        return;
     }
+
+
+    running=true;
+
+
+    setTimeout(
+        ()=>runWater(path),
+        350
+    );
 
 }
 
@@ -1589,11 +1737,9 @@ function runWater(path){
 
     function next(){
 
-        if(
-            step>=path.length
-        ){
+        if(step>=path.length){
 
-            reachFlower();
+            reachFinish();
 
             return;
 
@@ -1627,7 +1773,7 @@ function runWater(path){
 
         setTimeout(
             next,
-            600
+            520
         );
 
     }
@@ -1639,10 +1785,13 @@ function runWater(path){
 
 
 /* =========================================================
-   ФИНИШ
+   ФИНИШ УРОВНЯ
 ========================================================= */
 
-function reachFlower(){
+function reachFinish(){
+
+    completed=true;
+
 
     const flower=
         document.getElementById(
@@ -1652,24 +1801,14 @@ function reachFlower(){
 
     if(flower){
 
-        flower.textContent=
-            "🌻";
-
+        flower.textContent="🌻";
 
         flower.animate(
 
             [
-                {
-                    transform:"scale(.5)"
-                },
-
-                {
-                    transform:"scale(1.5)"
-                },
-
-                {
-                    transform:"scale(1)"
-                }
+                {transform:"scale(.5)"},
+                {transform:"scale(1.5)"},
+                {transform:"scale(1)"}
             ],
 
             {
@@ -1681,24 +1820,97 @@ function reachFlower(){
     }
 
 
-    completed=true;
-
-
     playWin();
 
 
     setTimeout(
-        ()=>{
-
-            win.classList.add(
-                "show"
-            );
-
-        },
-        1000
+        ()=>showWin(),
+        900
     );
 
 }
+
+
+/* =========================================================
+   ОКНО ПОБЕДЫ
+========================================================= */
+
+function showWin(){
+
+    const lastLevel=
+        currentLevel===
+        levels.length-1;
+
+
+    if(lastLevel){
+
+        winIcon.textContent=
+            "🏆💦🌻";
+
+        winTitle.textContent=
+            "Все трубы починены!";
+
+        winText.textContent=
+            "Ты прошёл все 4 уровня!";
+
+        nextButton.textContent=
+            "Играть ещё раз";
+
+    }
+
+    else{
+
+        winIcon.textContent=
+            "💦🌻";
+
+        winTitle.textContent=
+            `Уровень ${currentLevel+1} пройден!`;
+
+        winText.textContent=
+            "Вода дошла до цветка!";
+
+        nextButton.textContent=
+            "Дальше →";
+
+    }
+
+
+    win.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   КНОПКА ДАЛЬШЕ
+========================================================= */
+
+nextButton.addEventListener(
+    "click",
+    ()=>{
+
+
+        if(
+            currentLevel===
+            levels.length-1
+        ){
+
+            currentLevel=0;
+
+        }
+
+        else{
+
+            currentLevel++;
+
+        }
+
+
+        createGame();
+
+    }
+);
 
 
 /* =========================================================
@@ -1724,8 +1936,6 @@ function getAudio(){
 
 }
 
-
-/* ЩЕЛЧОК */
 
 function playClick(){
 
@@ -1757,9 +1967,7 @@ function playClick(){
 
         osc.connect(gain);
 
-        gain.connect(
-            ctx.destination
-        );
+        gain.connect(ctx.destination);
 
 
         osc.start();
@@ -1775,8 +1983,6 @@ function playClick(){
 }
 
 
-/* ВОДА */
-
 function playWater(){
 
     try{
@@ -1790,18 +1996,16 @@ function playWater(){
             ctx.createGain();
 
 
-        osc.frequency
-            .setValueAtTime(
-                420,
-                ctx.currentTime
-            );
+        osc.frequency.setValueAtTime(
+            420,
+            ctx.currentTime
+        );
 
 
-        osc.frequency
-            .linearRampToValueAtTime(
-                620,
-                ctx.currentTime+.18
-            );
+        osc.frequency.linearRampToValueAtTime(
+            620,
+            ctx.currentTime+.18
+        );
 
 
         gain.gain.setValueAtTime(
@@ -1818,9 +2022,7 @@ function playWater(){
 
         osc.connect(gain);
 
-        gain.connect(
-            ctx.destination
-        );
+        gain.connect(ctx.destination);
 
 
         osc.start();
@@ -1835,8 +2037,6 @@ function playWater(){
 
 }
 
-
-/* ПОБЕДА */
 
 function playWin(){
 
@@ -1899,17 +2099,7 @@ function playWin(){
 
 
 /* =========================================================
-   ПЕРЕЗАПУСК
-========================================================= */
-
-restartButton.addEventListener(
-    "click",
-    createGame
-);
-
-
-/* =========================================================
-   ЗАПУСК
+   START
 ========================================================= */
 
 createGame();
