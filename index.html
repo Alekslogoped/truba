@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Собери дорожку</title>
+<title>Почини трубы!</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     user-select:none;
@@ -18,19 +19,21 @@ html,body{
     width:100%;
     height:100%;
     overflow:hidden;
+
     font-family:"Trebuchet MS",Arial,sans-serif;
+
+    background:#dff4ff;
 }
 
 body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#dff5ff;
 }
 
-/* =========================
-   ИГРОВОЙ ЭКРАН
-========================= */
+/* =========================================================
+   ИГРОВОЙ ЭКРАН 16:9
+========================================================= */
 
 .game{
     width:100vw;
@@ -44,27 +47,34 @@ body{
 
     display:flex;
     flex-direction:column;
-    align-items:center;
 
-    padding:2vh 3vw;
+    padding:2vh 2vw;
 
     background:
-        radial-gradient(circle at 50% 40%,#ffffff 0%,#e9f9ff 45%,#cdefff 100%);
+        radial-gradient(
+            circle at 50% 40%,
+            #ffffff 0%,
+            #eaf9ff 48%,
+            #ccefff 100%
+        );
 }
 
-/* =========================
+/* =========================================================
    ЗАГОЛОВОК
-========================= */
+========================================================= */
 
 .header{
-    width:100%;
+    flex:0 0 auto;
+
     text-align:center;
+
+    z-index:5;
 }
 
 .header h1{
     margin:0;
 
-    color:#346c8f;
+    color:#326f92;
 
     font-size:clamp(25px,3vw,46px);
 
@@ -72,54 +82,230 @@ body{
 }
 
 .header p{
-    margin:.3em 0;
+    margin:.2em 0 .4em;
 
-    color:#567487;
+    color:#58768a;
 
-    font-size:clamp(13px,1.4vw,19px);
+    font-size:clamp(12px,1.25vw,18px);
 
     font-weight:700;
 }
 
-/* =========================
-   ПОЛЕ
-========================= */
+/* =========================================================
+   ОСНОВНАЯ ОБЛАСТЬ
+========================================================= */
 
-.board-wrap{
+.game-area{
     flex:1;
 
+    min-height:0;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(130px,1fr)
+        minmax(420px,2.5fr)
+        minmax(130px,1fr);
+
+    align-items:center;
+
+    gap:clamp(12px,2vw,32px);
+}
+
+/* =========================================================
+   БОКОВЫЕ ПАНЕЛИ
+========================================================= */
+
+.side-panel{
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:clamp(10px,1.5vh,18px);
+}
+
+/* =========================================================
+   РЕЧЕВАЯ КАРТОЧКА
+========================================================= */
+
+.speech-card{
     width:100%;
+
+    max-width:180px;
+
+    aspect-ratio:1.35;
+
+    margin:auto;
+
+    position:relative;
 
     display:flex;
 
     justify-content:center;
     align-items:center;
+
+    overflow:hidden;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.93);
+
+    border:4px solid rgba(255,255,255,.95);
+
+    box-shadow:
+        0 9px 22px rgba(55,100,130,.14);
+
+    transition:.35s;
 }
+
+/* закрытая карточка */
+
+.speech-card.locked{
+    background:
+        linear-gradient(
+            145deg,
+            #d9ccf6,
+            #eee7ff
+        );
+}
+
+/* знак вопроса */
+
+.card-cover{
+    position:absolute;
+
+    inset:0;
+
+    z-index:5;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #d8c9f7,
+            #eee7ff
+        );
+
+    color:#7658b1;
+
+    font-size:clamp(35px,4vw,65px);
+
+    font-weight:900;
+
+    transition:.4s;
+}
+
+/* картинка */
+
+.card-picture{
+    font-size:clamp(38px,4.5vw,70px);
+
+    transform:scale(.4);
+
+    opacity:0;
+
+    transition:.45s;
+
+    z-index:2;
+}
+
+/* открытая карточка */
+
+.speech-card.revealed{
+    border-color:#89d49b;
+
+    transform:scale(1.04);
+
+    box-shadow:
+        0 10px 26px rgba(70,160,95,.22);
+}
+
+.speech-card.revealed .card-cover{
+    opacity:0;
+
+    transform:scale(1.4);
+
+    pointer-events:none;
+}
+
+.speech-card.revealed .card-picture{
+    opacity:1;
+
+    transform:scale(1);
+
+    animation:picturePop .5s ease;
+}
+
+@keyframes picturePop{
+
+    0%{
+        transform:scale(.3) rotate(-10deg);
+    }
+
+    70%{
+        transform:scale(1.15) rotate(4deg);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* =========================================================
+   ЦЕНТР
+========================================================= */
+
+.center-area{
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    min-width:0;
+}
+
+/* =========================================================
+   ПОЛЕ ТРУБ
+========================================================= */
 
 .board{
     display:grid;
 
     grid-template-columns:
-        repeat(5,clamp(70px,8vw,115px));
+        repeat(4,clamp(72px,7.7vw,115px));
 
     grid-template-rows:
-        repeat(4,clamp(70px,8vw,115px));
+        repeat(3,clamp(72px,7.7vw,115px));
 
-    gap:clamp(6px,.7vw,10px);
+    gap:clamp(6px,.6vw,10px);
 
-    padding:clamp(10px,1vw,16px);
+    padding:clamp(10px,1vw,15px);
 
-    background:rgba(255,255,255,.65);
+    background:rgba(255,255,255,.70);
 
-    border-radius:28px;
+    border-radius:30px;
 
     box-shadow:
-        0 12px 35px rgba(47,100,130,.15);
+        0 15px 35px rgba(50,100,130,.16);
+
+    position:relative;
 }
 
-/* =========================
+/* =========================================================
    ЯЧЕЙКА
-========================= */
+========================================================= */
 
 .cell{
     position:relative;
@@ -129,28 +315,33 @@ body{
     justify-content:center;
     align-items:center;
 
-    background:rgba(255,255,255,.8);
+    border-radius:20px;
 
-    border-radius:18px;
+    background:
+        rgba(255,255,255,.76);
+
+    overflow:hidden;
 
     cursor:pointer;
 
     transition:.15s;
-
-    overflow:hidden;
 }
 
 .cell:hover{
-    transform:scale(1.03);
+    transform:scale(1.025);
 }
 
 .cell:active{
     transform:scale(.96);
 }
 
-/* =========================
-   ТРУБА
-========================= */
+.cell.correct{
+    background:#eefbf1;
+}
+
+/* =========================================================
+   ТРУБЫ
+========================================================= */
 
 .pipe{
     width:100%;
@@ -164,7 +355,12 @@ body{
     pointer-events:none;
 }
 
-/* прямая труба */
+/* =========================================================
+   ПРЯМАЯ ТРУБА
+
+   Базовое положение:
+   ВЕРХ ↕ НИЗ
+========================================================= */
 
 .pipe.straight::before{
     content:"";
@@ -172,28 +368,33 @@ body{
     position:absolute;
 
     width:34%;
-    height:110%;
+    height:112%;
 
     left:33%;
-    top:-5%;
+    top:-6%;
 
     border-radius:14px;
 
     background:
         linear-gradient(
             90deg,
-            #447f9f,
-            #83c9e9,
-            #d7f5ff,
-            #66b6da,
-            #34728f
+            #3f7897 0%,
+            #73b9d8 18%,
+            #d8f5ff 45%,
+            #8cd0ea 62%,
+            #39738f 100%
         );
 
     box-shadow:
-        inset 0 0 0 3px rgba(40,90,120,.15);
+        inset 0 0 0 3px rgba(35,80,105,.17);
 }
 
-/* угол */
+/* =========================================================
+   УГОЛ
+
+   Базовое положение:
+   ВЕРХ → ВПРАВО
+========================================================= */
 
 .pipe.corner::before,
 .pipe.corner::after{
@@ -204,26 +405,29 @@ body{
     background:
         linear-gradient(
             90deg,
-            #447f9f,
-            #83c9e9,
-            #d7f5ff,
-            #66b6da,
-            #34728f
+            #3f7897 0%,
+            #73b9d8 18%,
+            #d8f5ff 45%,
+            #8cd0ea 62%,
+            #39738f 100%
         );
+
+    box-shadow:
+        inset 0 0 0 3px rgba(35,80,105,.14);
 }
 
 .pipe.corner::before{
     width:34%;
-    height:67%;
+    height:68%;
 
     left:33%;
-    top:0;
+    top:-2%;
 
     border-radius:14px 14px 0 0;
 }
 
 .pipe.corner::after{
-    width:67%;
+    width:68%;
     height:34%;
 
     left:33%;
@@ -232,103 +436,213 @@ body{
     border-radius:0 14px 14px 0;
 }
 
-/* =========================
-   СТАРТ И ФИНИШ
-========================= */
+/* =========================================================
+   ВОДА
 
-.start,
-.finish-point{
-    cursor:default;
-}
+   Накладывается поверх трубы.
+========================================================= */
 
-.start{
-    background:#dff8e4;
-}
-
-.finish-point{
-    background:#fff0cc;
-}
-
-.icon{
+.water{
     position:absolute;
 
-    z-index:5;
+    inset:0;
 
-    font-size:clamp(27px,3vw,45px);
+    z-index:4;
 
     pointer-events:none;
+
+    opacity:0;
+
+    transition:opacity .25s;
 }
 
-.start-label,
-.finish-label{
+.cell.water-on .water{
+    opacity:1;
+}
+
+/* вода в прямой трубе */
+
+.water.straight::before{
+    content:"";
+
+    position:absolute;
+
+    width:13%;
+    height:110%;
+
+    left:43.5%;
+    top:-5%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            #e9fbff,
+            #39bfff,
+            #0e9ee8,
+            #e9fbff
+        );
+
+    box-shadow:
+        0 0 12px rgba(30,180,255,.85);
+
+    animation:waterFlowStraight .55s linear infinite;
+}
+
+@keyframes waterFlowStraight{
+
+    from{
+        background-position:0 0;
+    }
+
+    to{
+        background-position:0 70px;
+    }
+}
+
+/* вода в углу */
+
+.water.corner::before,
+.water.corner::after{
+    content:"";
+
+    position:absolute;
+
+    background:#20b6f5;
+
+    box-shadow:
+        0 0 10px rgba(30,180,255,.8);
+}
+
+.water.corner::before{
+    width:13%;
+    height:60%;
+
+    left:43.5%;
+    top:0;
+
+    border-radius:999px;
+}
+
+.water.corner::after{
+    width:58%;
+    height:13%;
+
+    left:44%;
+    top:43.5%;
+
+    border-radius:999px;
+}
+
+/* =========================================================
+   СТАРТ И ФИНИШ
+========================================================= */
+
+.start-cell,
+.finish-cell{
+    cursor:default;
+
+    background:rgba(255,255,255,.88);
+}
+
+.start-cell{
+    border:3px solid #8dd9a1;
+}
+
+.finish-cell{
+    border:3px solid #ffd373;
+}
+
+.special-icon{
+    font-size:clamp(34px,4vw,58px);
+
+    z-index:10;
+}
+
+.special-label{
     position:absolute;
 
     bottom:4px;
 
-    z-index:6;
-
-    font-size:clamp(9px,.8vw,12px);
+    font-size:clamp(8px,.7vw,11px);
 
     font-weight:900;
 }
 
-.start-label{
-    color:#438657;
+.start-cell .special-label{
+    color:#44895a;
 }
 
-.finish-label{
-    color:#b27b25;
+.finish-cell .special-label{
+    color:#b98022;
 }
 
-/* =========================
-   РЕЧЕВАЯ КАРТИНКА
-========================= */
+/* =========================================================
+   ФИНИШНЫЙ ЦВЕТОК
+========================================================= */
 
-.speech-picture{
-    position:absolute;
-
-    z-index:10;
-
-    width:38%;
-    height:38%;
-
-    right:3px;
-    bottom:3px;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    border-radius:50%;
-
-    background:white;
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.15);
-
-    font-size:clamp(16px,2vw,27px);
-
-    pointer-events:none;
+.finish-flower{
+    transition:.5s;
 }
 
-/* =========================
+.finish-cell.bloom .finish-flower{
+    transform:scale(1.35) rotate(8deg);
+
+    animation:bloom .7s ease;
+}
+
+@keyframes bloom{
+
+    0%{
+        transform:scale(.5);
+    }
+
+    60%{
+        transform:scale(1.5) rotate(-7deg);
+    }
+
+    100%{
+        transform:scale(1.35) rotate(8deg);
+    }
+}
+
+/* =========================================================
+   ПОДСКАЗКА
+========================================================= */
+
+.hint{
+    margin-top:1vh;
+
+    padding:.4em 1em;
+
+    background:rgba(255,255,255,.7);
+
+    border-radius:999px;
+
+    color:#547488;
+
+    font-size:clamp(11px,1.1vw,16px);
+
+    font-weight:700;
+}
+
+/* =========================================================
    ПОБЕДА
-========================= */
+========================================================= */
 
 .win{
     position:absolute;
 
     inset:0;
 
-    z-index:50;
+    z-index:100;
 
     display:none;
 
     justify-content:center;
     align-items:center;
 
-    background:rgba(220,245,255,.72);
+    background:rgba(222,247,255,.72);
 
     backdrop-filter:blur(7px);
 }
@@ -338,7 +652,7 @@ body{
 }
 
 .win-card{
-    width:min(70%,600px);
+    width:min(68%,620px);
 
     padding:4vh 4vw;
 
@@ -349,7 +663,7 @@ body{
     border-radius:35px;
 
     box-shadow:
-        0 20px 50px rgba(50,90,120,.2);
+        0 20px 55px rgba(50,90,120,.22);
 
     animation:winPop .45s ease;
 }
@@ -368,21 +682,21 @@ body{
 }
 
 .win-icon{
-    font-size:clamp(55px,8vw,110px);
+    font-size:clamp(55px,8vw,105px);
 }
 
 .win h2{
-    margin:.2em 0;
+    margin:.15em 0;
 
-    color:#397897;
+    color:#377c9f;
 
-    font-size:clamp(30px,4vw,55px);
+    font-size:clamp(30px,4vw,58px);
 }
 
 .win p{
-    color:#607887;
+    color:#627b89;
 
-    font-size:clamp(16px,1.8vw,23px);
+    font-size:clamp(15px,1.7vw,22px);
 
     font-weight:700;
 }
@@ -394,7 +708,12 @@ body{
 
     border-radius:999px;
 
-    background:#68badd;
+    background:
+        linear-gradient(
+            135deg,
+            #6cc5e9,
+            #369bc8
+        );
 
     color:white;
 
@@ -408,18 +727,23 @@ body{
         0 7px 18px rgba(55,120,155,.25);
 }
 
-/* =========================
-   ПОДСКАЗКА
-========================= */
+/* =========================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+========================================================= */
 
-.hint{
-    margin-bottom:.5vh;
+@media(max-width:800px){
 
-    color:#4d7186;
+    .game-area{
+        grid-template-columns:
+            100px 1fr 100px;
 
-    font-size:clamp(12px,1.2vw,17px);
+        gap:8px;
+    }
 
-    font-weight:700;
+    .speech-card{
+        border-radius:15px;
+    }
+
 }
 
 </style>
@@ -429,60 +753,183 @@ body{
 
 <main class="game">
 
-<div class="header">
+    <!-- =========================
+         ЗАГОЛОВОК
+    ========================== -->
 
-    <h1>🔧 Почини трубы!</h1>
+    <div class="header">
 
-    <p>
-        Нажимай на трубы и собери дорожку
-        от старта до финиша
-    </p>
-
-</div>
-
-
-<div class="board-wrap">
-
-    <div
-        class="board"
-        id="board">
-    </div>
-
-</div>
-
-
-<div class="hint">
-    💡 Каждое нажатие поворачивает трубу
-</div>
-
-
-<!-- ПОБЕДА -->
-
-<div
-    class="win"
-    id="win">
-
-    <div class="win-card">
-
-        <div class="win-icon">
-            💦
-        </div>
-
-        <h2>
-            Получилось!
-        </h2>
+        <h1>
+            🔧 Почини трубы!
+        </h1>
 
         <p>
-            Ты правильно соединил трубы!
+            Поворачивай трубы. За правильными решениями спрятались картинки!
         </p>
-
-        <button id="restartButton">
-            Играть ещё раз
-        </button>
 
     </div>
 
-</div>
+
+    <!-- =========================
+         ИГРОВАЯ ОБЛАСТЬ
+    ========================== -->
+
+    <div class="game-area">
+
+
+        <!-- ЛЕВАЯ ПАНЕЛЬ -->
+
+        <div
+            class="side-panel"
+            id="leftPanel">
+
+            <div
+                class="speech-card locked"
+                data-card="0">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🎈
+                </div>
+
+            </div>
+
+
+            <div
+                class="speech-card locked"
+                data-card="1">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🐭
+                </div>
+
+            </div>
+
+
+            <div
+                class="speech-card locked"
+                data-card="2">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🚗
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ЦЕНТР -->
+
+        <div class="center-area">
+
+            <div
+                class="board"
+                id="board">
+            </div>
+
+            <div class="hint">
+                💡 Нажми на трубу, чтобы её повернуть
+            </div>
+
+        </div>
+
+
+        <!-- ПРАВАЯ ПАНЕЛЬ -->
+
+        <div
+            class="side-panel"
+            id="rightPanel">
+
+            <div
+                class="speech-card locked"
+                data-card="3">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🧢
+                </div>
+
+            </div>
+
+
+            <div
+                class="speech-card locked"
+                data-card="4">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🐱
+                </div>
+
+            </div>
+
+
+            <div
+                class="speech-card locked"
+                data-card="5">
+
+                <div class="card-cover">
+                    ?
+                </div>
+
+                <div class="card-picture">
+                    🛞
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ПОБЕДА
+    ========================== -->
+
+    <div
+        class="win"
+        id="win">
+
+        <div class="win-card">
+
+            <div class="win-icon">
+                🌻💦
+            </div>
+
+            <h2>
+                Получилось!
+            </h2>
+
+            <p>
+                Вода дошла до финиша!
+            </p>
+
+            <button id="restartButton">
+                Играть ещё раз
+            </button>
+
+        </div>
+
+    </div>
 
 </main>
 
@@ -490,114 +937,146 @@ body{
 <script>
 
 /* =========================================================
-   НАПРАВЛЕНИЯ
+   ИДЕЯ УРОВНЯ
 
-   0 = вверх
-   1 = вправо
-   2 = вниз
-   3 = влево
+   Поле:
+
+   0   1   2   3
+   4   5   6   7
+   8   9  10  11
+
+
+   Маршрут воды:
+
+   СТАРТ
+     ↓
+
+   0 → 1 → 2
+           ↓
+           6 → 7
+               ↓
+              11
+
+              ФИНИШ
+
+
+   ШЕСТЬ ПОВОРАЧИВАЕМЫХ ТРУБ:
+   1, 2, 6, 7, 10, 11
+
+   Каждая связана с одной
+   речевой картинкой.
 ========================================================= */
 
 
 /* =========================================================
-   ГОТОВОЕ РЕШЕНИЕ
+   ТИПЫ ЯЧЕЕК
 
-   Здесь заранее задан правильный маршрут.
+   rotation:
+   0 = исходное положение
+   1 = 90°
+   2 = 180°
+   3 = 270°
 ========================================================= */
 
 const level=[
 
     /* РЯД 1 */
 
-    {type:"start",rotation:1},
+    {
+        type:"start"
+    },
 
-    {type:"straight",rotation:1},
+    {
+        type:"straight",
+        solution:1,
+        card:0
+    },
 
-    {type:"corner",rotation:1},
+    {
+        type:"corner",
+        solution:2,
+        card:1
+    },
 
-    {type:"corner",rotation:2},
-
-    {type:"straight",rotation:0},
+    {
+        type:"empty"
+    },
 
 
     /* РЯД 2 */
 
-    {type:"corner",rotation:0},
+    {
+        type:"empty"
+    },
 
-    {type:"straight",rotation:1},
+    {
+        type:"empty"
+    },
 
-    {type:"corner",rotation:2},
+    {
+        type:"corner",
+        solution:1,
+        card:2
+    },
 
-    {type:"straight",rotation:0},
-
-    {type:"corner",rotation:3},
+    {
+        type:"corner",
+        solution:2,
+        card:3
+    },
 
 
     /* РЯД 3 */
 
-    {type:"corner",rotation:1},
+    {
+        type:"empty"
+    },
 
-    {type:"straight",rotation:1},
+    {
+        type:"empty"
+    },
 
-    {type:"corner",rotation:3},
+    {
+        type:"straight",
+        solution:0,
+        card:4
+    },
 
-    {type:"corner",rotation:0},
-
-    {type:"straight",rotation:1},
-
-
-    /* РЯД 4 */
-
-    {type:"straight",rotation:0},
-
-    {type:"corner",rotation:0},
-
-    {type:"straight",rotation:1},
-
-    {type:"straight",rotation:1},
-
-    {type:"finish",rotation:3}
+    {
+        type:"corner",
+        solution:3,
+        card:5
+    }
 
 ];
 
 
-/* =========================================================
-   ПРАВИЛЬНЫЕ ПОВОРОТЫ
+/*
+ПОРЯДОК, ПО КОТОРОМУ
+ПОБЕЖИТ ВОДА.
 
-   Для тестовой версии проверяем,
-   совпали ли все трубы с нужным положением.
-========================================================= */
+Старт → трубы → финиш.
+*/
 
-const solution=[
-
-    1,1,1,2,0,
-
-    0,1,2,0,3,
-
-    1,1,3,0,1,
-
-    0,0,1,1,3
-
+const waterPath=[
+    0,
+    1,
+    2,
+    6,
+    7,
+    11
 ];
 
 
 /* =========================================================
-   РЕЧЕВЫЕ МЕТКИ
-
-   Пока используем эмодзи.
-   Потом здесь будут PNG-картинки:
-   шапка, шар, шкаф, мышь и т.д.
+   СОСТОЯНИЕ
 ========================================================= */
 
-const speechItems={
+let rotations=[];
 
-    2:"🎈",
-    6:"🐭",
-    8:"🚗",
-    12:"🐱",
-    16:"🧢"
+let gameFinished=false;
 
-};
+let waterRunning=false;
 
 
 /* =========================================================
@@ -611,20 +1090,73 @@ const win=
     document.getElementById("win");
 
 const restartButton=
-    document.getElementById("restartButton");
+    document.getElementById(
+        "restartButton"
+    );
 
-
-let rotations=[];
+const speechCards=
+    document.querySelectorAll(
+        ".speech-card"
+    );
 
 
 /* =========================================================
    СЛУЧАЙНЫЙ ПОВОРОТ
+
+   Специально стараемся НЕ ставить
+   трубу сразу правильно.
 ========================================================= */
 
-function randomRotation(){
+function getWrongRotation(solution){
 
-    return Math.floor(
-        Math.random()*4
+    let rotation;
+
+    do{
+
+        rotation=
+            Math.floor(
+                Math.random()*4
+            );
+
+    }
+    while(
+        isSamePipePosition(
+            rotation,
+            solution,
+            null
+        )
+    );
+
+    return rotation;
+
+}
+
+
+/* =========================================================
+   СРАВНЕНИЕ ПОВОРОТА
+
+   У прямой трубы:
+   0 = 2
+   1 = 3
+========================================================= */
+
+function isSamePipePosition(
+    rotation,
+    solution,
+    type
+){
+
+    if(type==="straight"){
+
+        return(
+            rotation%2 ===
+            solution%2
+        );
+
+    }
+
+    return(
+        rotation === solution
     );
 
 }
@@ -638,9 +1170,30 @@ function createGame(){
 
     board.innerHTML="";
 
-    win.classList.remove("show");
+    win.classList.remove(
+        "show"
+    );
+
+    gameFinished=false;
+
+    waterRunning=false;
 
     rotations=[];
+
+
+    /* закрываем картинки */
+
+    speechCards.forEach(card=>{
+
+        card.classList.remove(
+            "revealed"
+        );
+
+        card.classList.add(
+            "locked"
+        );
+
+    });
 
 
     level.forEach(
@@ -648,11 +1201,38 @@ function createGame(){
 
 
             const cell=
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             cell.className=
                 "cell";
+
+
+            cell.dataset.index=
+                index;
+
+
+            /* =========================
+               ПУСТАЯ ЯЧЕЙКА
+            ========================= */
+
+            if(item.type==="empty"){
+
+                cell.style.opacity=".22";
+
+                cell.style.cursor=
+                    "default";
+
+
+                board.appendChild(
+                    cell
+                );
+
+                return;
+
+            }
 
 
             /* =========================
@@ -662,121 +1242,121 @@ function createGame(){
             if(item.type==="start"){
 
                 cell.classList.add(
-                    "start"
+                    "start-cell"
                 );
 
 
                 cell.innerHTML=`
-                    <div class="icon">🚰</div>
-                    <div class="start-label">
+
+                    <div class="special-icon">
+                        🚰
+                    </div>
+
+                    <div class="special-label">
                         СТАРТ
                     </div>
+
                 `;
 
 
-                rotations[index]=
-                    solution[index];
-
-
-                board.appendChild(cell);
-
-                return;
-
-            }
-
-
-            /* =========================
-               ФИНИШ
-            ========================= */
-
-            if(item.type==="finish"){
-
-                cell.classList.add(
-                    "finish-point"
+                board.appendChild(
+                    cell
                 );
 
-
-                cell.innerHTML=`
-                    <div class="icon">🌻</div>
-                    <div class="finish-label">
-                        ФИНИШ
-                    </div>
-                `;
-
-
-                rotations[index]=
-                    solution[index];
-
-
-                board.appendChild(cell);
-
                 return;
 
             }
 
 
             /* =========================
-               ТРУБА
+               ОБЫЧНАЯ ТРУБА
             ========================= */
 
             const pipe=
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             pipe.className=
                 "pipe "+item.type;
 
 
-            let rotation=
-                randomRotation();
+            /*
+            Получаем неправильный
+            стартовый поворот.
+            */
+
+            let rotation;
+
+            do{
+
+                rotation=
+                    Math.floor(
+                        Math.random()*4
+                    );
+
+            }
+            while(
+                isSamePipePosition(
+                    rotation,
+                    item.solution,
+                    item.type
+                )
+            );
 
 
-            rotations[index]=rotation;
+            rotations[index]=
+                rotation;
 
 
             pipe.style.transform=
                 `rotate(${rotation*90}deg)`;
 
 
-            cell.appendChild(pipe);
+            cell.appendChild(
+                pipe
+            );
 
 
             /* =========================
-               РЕЧЕВАЯ КАРТИНКА
+               СЛОЙ ВОДЫ
             ========================= */
 
-            if(
-                speechItems[index]
-            ){
-
-                const speech=
-                    document.createElement(
-                        "div"
-                    );
-
-
-                speech.className=
-                    "speech-picture";
-
-
-                speech.textContent=
-                    speechItems[index];
-
-
-                cell.appendChild(
-                    speech
+            const water=
+                document.createElement(
+                    "div"
                 );
 
-            }
+
+            water.className=
+                "water "+item.type;
+
+
+            water.style.transform=
+                `rotate(${rotation*90}deg)`;
+
+
+            cell.appendChild(
+                water
+            );
 
 
             /* =========================
-               ПОВОРОТ
+               КЛИК
             ========================= */
 
             cell.addEventListener(
                 "click",
                 ()=>{
+
+
+                    if(
+                        gameFinished ||
+                        waterRunning
+                    ){
+                        return;
+                    }
 
 
                     rotations[index]=
@@ -785,14 +1365,39 @@ function createGame(){
                         )%4;
 
 
+                    const newRotation=
+                        rotations[index];
+
+
                     pipe.style.transform=
-                        `rotate(${rotations[index]*90}deg)`;
+                        `rotate(${newRotation*90}deg)`;
+
+
+                    water.style.transform=
+                        `rotate(${newRotation*90}deg)`;
 
 
                     playTurnSound();
 
 
-                    checkWin();
+                    /*
+                    Проверяем именно
+                    эту трубу.
+                    */
+
+                    updatePipeState(
+                        index,
+                        cell,
+                        item
+                    );
+
+
+                    /*
+                    Проверяем,
+                    собран ли весь путь.
+                    */
+
+                    checkWholePath();
 
                 }
             );
@@ -805,83 +1410,213 @@ function createGame(){
         }
     );
 
+
+    /* =========================
+       ФИНИШ
+
+       Используем последнюю
+       свободную ячейку визуально
+       как цветок возле поля.
+    ========================= */
+
+    createFinishPoint();
+
 }
 
 
 /* =========================================================
-   ПРОВЕРКА
+   ФИНИШНАЯ ТОЧКА
 ========================================================= */
 
-function checkWin(){
+function createFinishPoint(){
 
-    let correct=true;
+    /*
+    Цветок располагаем поверх
+    нижней правой части поля.
+    */
 
-
-    for(
-        let i=0;
-        i<solution.length;
-        i++
-    ){
-
-        /*
-        Старт и финиш
-        не поворачиваются
-        */
-
-        if(
-            level[i].type==="start" ||
-            level[i].type==="finish"
-        ){
-            continue;
-        }
+    const finish=
+        document.createElement(
+            "div"
+        );
 
 
-        /*
-        Для прямой трубы
-        0 и 2 одинаковы,
-        1 и 3 одинаковы.
-        */
+    finish.id=
+        "finishPoint";
 
-        if(
-            level[i].type==="straight"
-        ){
 
-            if(
-                rotations[i]%2 !==
-                solution[i]%2
-            ){
+    finish.style.position=
+        "absolute";
 
-                correct=false;
 
-                break;
+    finish.style.right=
+        "-70px";
 
-            }
 
-        }
+    finish.style.bottom=
+        "18px";
 
-        else{
 
-            if(
-                rotations[i] !==
-                solution[i]
-            ){
+    finish.style.width=
+        "75px";
 
-                correct=false;
 
-                break;
+    finish.style.height=
+        "75px";
 
-            }
+
+    finish.style.display=
+        "flex";
+
+
+    finish.style.justifyContent=
+        "center";
+
+
+    finish.style.alignItems=
+        "center";
+
+
+    finish.style.fontSize=
+        "55px";
+
+
+    finish.style.background=
+        "rgba(255,255,255,.9)";
+
+
+    finish.style.borderRadius=
+        "50%";
+
+
+    finish.style.boxShadow=
+        "0 8px 20px rgba(60,100,120,.18)";
+
+
+    finish.innerHTML=
+        `<span class="finish-flower">🌱</span>`;
+
+
+    board.appendChild(
+        finish
+    );
+
+}
+
+
+/* =========================================================
+   СОСТОЯНИЕ ОДНОЙ ТРУБЫ
+========================================================= */
+
+function updatePipeState(
+    index,
+    cell,
+    item
+){
+
+    const correct=
+        isSamePipePosition(
+            rotations[index],
+            item.solution,
+            item.type
+        );
+
+
+    const card=
+        document.querySelector(
+            `.speech-card[data-card="${item.card}"]`
+        );
+
+
+    if(correct){
+
+        cell.classList.add(
+            "correct"
+        );
+
+
+        if(card){
+
+            card.classList.remove(
+                "locked"
+            );
+
+
+            card.classList.add(
+                "revealed"
+            );
 
         }
 
     }
 
+    else{
 
-    if(correct){
+        cell.classList.remove(
+            "correct"
+        );
+
+
+        if(card){
+
+            card.classList.remove(
+                "revealed"
+            );
+
+
+            card.classList.add(
+                "locked"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ПРОВЕРКА ВСЕХ ТРУБ
+========================================================= */
+
+function checkWholePath(){
+
+    const pipeIndexes=
+        level
+        .map(
+            (item,index)=>({
+                item,
+                index
+            })
+        )
+        .filter(
+            obj=>
+                obj.item.type===
+                    "straight" ||
+                obj.item.type===
+                    "corner"
+        );
+
+
+    const everythingCorrect=
+        pipeIndexes.every(
+            ({item,index})=>
+                isSamePipePosition(
+                    rotations[index],
+                    item.solution,
+                    item.type
+                )
+        );
+
+
+    if(everythingCorrect){
+
+        waterRunning=true;
+
 
         setTimeout(
-            showWin,
-            350
+            runWater,
+            500
         );
 
     }
@@ -890,22 +1625,126 @@ function checkWin(){
 
 
 /* =========================================================
-   ПОБЕДА
+   АНИМАЦИЯ ВОДЫ
 ========================================================= */
 
-function showWin(){
+function runWater(){
+
+    let step=0;
+
+
+    /*
+    Берём только настоящие
+    трубы из маршрута.
+    */
+
+    const actualPipePath=
+        waterPath.filter(
+            index=>
+                level[index] &&
+                (
+                    level[index].type===
+                        "straight" ||
+                    level[index].type===
+                        "corner"
+                )
+        );
+
+
+    function next(){
+
+        if(
+            step >=
+            actualPipePath.length
+        ){
+
+            reachFinish();
+
+            return;
+
+        }
+
+
+        const index=
+            actualPipePath[step];
+
+
+        const cell=
+            board.querySelector(
+                `.cell[data-index="${index}"]`
+            );
+
+
+        if(cell){
+
+            cell.classList.add(
+                "water-on"
+            );
+
+        }
+
+
+        playWaterSound();
+
+
+        step++;
+
+
+        setTimeout(
+            next,
+            450
+        );
+
+    }
+
+
+    next();
+
+}
+
+
+/* =========================================================
+   ВОДА ДОШЛА ДО ФИНИША
+========================================================= */
+
+function reachFinish(){
+
+    const finish=
+        document.getElementById(
+            "finishPoint"
+        );
+
+
+    if(finish){
+
+        finish.innerHTML=
+            `<span class="finish-flower">🌻</span>`;
+
+    }
+
 
     playWinSound();
 
-    win.classList.add(
-        "show"
+
+    gameFinished=true;
+
+
+    setTimeout(
+        ()=>{
+
+            win.classList.add(
+                "show"
+            );
+
+        },
+        900
     );
 
 }
 
 
 /* =========================================================
-   ЗВУК ПОВОРОТА
+   ЗВУКИ
 ========================================================= */
 
 let audioContext=null;
@@ -923,10 +1762,13 @@ function getAudio(){
 
     }
 
+
     return audioContext;
 
 }
 
+
+/* поворот */
 
 function playTurnSound(){
 
@@ -946,18 +1788,19 @@ function playTurnSound(){
 
         osc.type="sine";
 
-        osc.frequency.value=260;
+        osc.frequency.value=
+            240;
 
 
         gain.gain.setValueAtTime(
-            .04,
+            .035,
             ctx.currentTime
         );
 
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            ctx.currentTime+.08
+            ctx.currentTime+.07
         );
 
 
@@ -971,7 +1814,7 @@ function playTurnSound(){
         osc.start();
 
         osc.stop(
-            ctx.currentTime+.08
+            ctx.currentTime+.07
         );
 
     }
@@ -981,9 +1824,75 @@ function playTurnSound(){
 }
 
 
-/* =========================================================
-   ЗВУК ПОБЕДЫ
-========================================================= */
+/* вода */
+
+function playWaterSound(){
+
+    try{
+
+        const ctx=
+            getAudio();
+
+
+        const osc=
+            ctx.createOscillator();
+
+
+        const gain=
+            ctx.createGain();
+
+
+        osc.type="sine";
+
+        osc.frequency
+            .setValueAtTime(
+                450,
+                ctx.currentTime
+            );
+
+
+        osc.frequency
+            .exponentialRampToValueAtTime(
+                650,
+                ctx.currentTime+.18
+            );
+
+
+        gain.gain
+            .setValueAtTime(
+                .025,
+                ctx.currentTime
+            );
+
+
+        gain.gain
+            .exponentialRampToValueAtTime(
+                .001,
+                ctx.currentTime+.2
+            );
+
+
+        osc.connect(gain);
+
+        gain.connect(
+            ctx.destination
+        );
+
+
+        osc.start();
+
+        osc.stop(
+            ctx.currentTime+.2
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+/* победа */
 
 function playWinSound(){
 
@@ -1017,7 +1926,8 @@ function playWinSound(){
                     frequency;
 
 
-                gain.gain.value=.07;
+                gain.gain.value=
+                    .06;
 
 
                 osc.connect(gain);
@@ -1059,7 +1969,7 @@ restartButton.addEventListener(
 
 
 /* =========================================================
-   ЗАПУСК
+   СТАРТ
 ========================================================= */
 
 createGame();
