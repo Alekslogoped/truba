@@ -341,6 +341,14 @@ body{
     cursor:default;
 }
 
+.cell:not(.empty):not(.endpoint):hover{
+    z-index:8;
+}
+
+.cell:not(.empty):not(.endpoint):active{
+    z-index:9;
+}
+
 /* правильную трубу НЕ подсвечиваем зелёным,
    чтобы ребёнок ориентировался по открывшейся картинке */
 
@@ -355,13 +363,16 @@ body{
 .pipe-image{
     position:absolute;
 
-    width:104%;
-    height:104%;
+    /* Геометрический стык:
+       соседние клетки касаются границами, а PNG чуть выходит
+       за границу клетки, чтобы прозрачные поля картинки не давали щель. */
+    width:112%;
+    height:112%;
 
-    left:-2%;
-    top:-2%;
+    left:-6%;
+    top:-6%;
 
-    object-fit:contain;
+    object-fit:fill;
 
     pointer-events:none;
 
@@ -384,11 +395,11 @@ body{
 .water-layer{
     position:absolute;
 
-    width:104%;
-    height:104%;
+    width:112%;
+    height:112%;
 
-    left:-2%;
-    top:-2%;
+    left:-6%;
+    top:-6%;
 
     overflow:visible;
 
@@ -1412,10 +1423,12 @@ function createGame(){
        РАЗМЕР ПОЛЯ
     ========================= */
 
+    /* Все трубы привязаны к одной квадратной сетке.
+       Поэтому центры соединений соседних труб всегда совпадают. */
     const cellSize =
         level.cols >= 5
-        ? "clamp(96px,8.55vw,134px)"
-        : "clamp(102px,9.15vw,142px)";
+        ? "clamp(100px,8.8vw,138px)"
+        : "clamp(108px,9.4vw,146px)";
 
     board.style.gridTemplateColumns=
         `repeat(${level.cols}, ${cellSize})`;
