@@ -944,13 +944,8 @@ const ASSETS={
 ========================================================= */
 
 const pictures=[
-    "🎈",
-    "🐭",
-    "🚗",
-    "🧢",
-    "🐱",
-    "🛞",
-    "🧥"
+    "🎈","🐭","🚗","🧢","🐱",
+    "🛞","🧥","🐶","⚽","🚲"
 ];
 
 
@@ -960,17 +955,17 @@ const pictures=[
 
 const levels=[
 
-
-/* =========================
-   УРОВЕНЬ 1 — 4 ТРУБЫ
+/* =========================================================
+   УРОВЕНЬ 1 — 6 ТРУБ / 6 КАРТОЧЕК
 
    🚰 → 1 → 2
-             ↓
-             6 → 7
-                 ↓
-                🌱
-========================= */
+            ↓
+        6 ← 5
+        ↓
+        10 → 11 → 🌱
 
+   Компактный маршрут с 6 поворачиваемыми трубами.
+========================================================= */
 {
     cols:4,
     rows:3,
@@ -979,286 +974,114 @@ const levels=[
     startDirection:"E",
 
     finishIndex:11,
-    finishIncoming:"N",
+    finishIncoming:"W",
 
-    required:[
-        1,2,6,7
-    ],
+    required:[1,2,6,5,9,10],
 
     cells:[
-
         {type:"start"},
 
-        {
-            type:"straight",
-            target:["W","E"],
-            card:0
-        },
-
-        {
-            type:"corner",
-            target:["W","S"],
-            card:1
-        },
-
+        {type:"straight", target:["W","E"], card:0},
+        {type:"corner",   target:["W","S"], card:1},
         {type:"empty"},
 
-
         {type:"empty"},
-        {type:"empty"},
-
-        {
-            type:"corner",
-            target:["N","E"],
-            card:2
-        },
-
-        {
-            type:"corner",
-            target:["W","S"],
-            card:3
-        },
-
-
-        {type:"empty"},
-        {type:"empty"},
+        {type:"corner",   target:["E","S"], card:3},
+        {type:"corner",   target:["N","W"], card:2},
         {type:"empty"},
 
+        {type:"empty"},
+        {type:"corner",   target:["N","E"], card:4},
+        {type:"straight", target:["W","E"], card:5},
         {type:"finish"}
-
     ]
 },
 
+/* =========================================================
+   УРОВЕНЬ 2 — 8 ТРУБ / 6 КАРТОЧЕК
 
-/* =========================
-   УРОВЕНЬ 2 — 5 ТРУБЫ
-
-   🚰 → 1 → 2
-             ↓
-             6     🌱7
-             ↓      ↑
-            10 → 11
-========================= */
-
+   Чётное усложнение после первого уровня.
+   Две дополнительные трубы не открывают карточки.
+========================================================= */
 {
-    cols:4,
+    cols:5,
     rows:3,
 
     startIndex:0,
     startDirection:"E",
 
-    finishIndex:7,
-    finishIncoming:"S",
+    finishIndex:13,
+    finishIncoming:"W",
 
-    required:[
-        1,2,6,10,11
-    ],
+    required:[1,2,3,4,9,8,7,12],
 
     cells:[
-
         {type:"start"},
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:0
-        },
-
-        {
-            type:"corner",
-            target:["W","S"],
-            card:1
-        },
-
-        {type:"empty"},
-
+        {type:"straight", target:["W","E"], card:0},
+        {type:"straight", target:["W","E"], card:1},
+        {type:"straight", target:["W","E"], card:2},
+        {type:"corner",   target:["W","S"], card:3},
 
         {type:"empty"},
         {type:"empty"},
+        {type:"corner",   target:["E","S"], card:6},
+        {type:"straight", target:["W","E"], card:5},
+        {type:"corner",   target:["N","W"], card:4},
 
-        {
-            type:"straight",
-            target:["N","S"],
-            card:2
-        },
-
+        {type:"empty"},
+        {type:"empty"},
+        {type:"corner",   target:["N","E"], card:7},
         {type:"finish"},
-
-
-        {type:"empty"},
-        {type:"empty"},
-
-        {
-            type:"corner",
-            target:["N","E"],
-            card:3
-        },
-
-        {
-            type:"corner",
-            target:["W","N"],
-            card:4
-        }
-
-    ]
-},
-
-
-/* =========================
-   УРОВЕНЬ 3 — 6 ТРУБ
-
-   🚰 → 1 → 2 → 3
-                 ↓
-   🌱4 ← 5 ← 6 ← 7
-========================= */
-
-{
-    cols:4,
-    rows:3,
-
-    startIndex:0,
-    startDirection:"E",
-
-    finishIndex:4,
-    finishIncoming:"E",
-
-    required:[
-        1,2,3,7,6,5
-    ],
-
-    cells:[
-
-        {type:"start"},
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:0
-        },
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:1
-        },
-
-        {
-            type:"corner",
-            target:["W","S"],
-            card:2
-        },
-
-
-        {type:"finish"},
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:5
-        },
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:4
-        },
-
-        {
-            type:"corner",
-            target:["N","W"],
-            card:3
-        },
-
-
-        {type:"empty"},
-        {type:"empty"},
-        {type:"empty"},
         {type:"empty"}
-
     ]
 },
 
+/* =========================================================
+   УРОВЕНЬ 3 — 10 ТРУБ / 6 КАРТОЧЕК
 
-/* =========================
-   УРОВЕНЬ 4 — 7 ТРУБ
-
-   🚰 → 1 → 2 → 3
-                 ↓
-                 7
-                 ↓
-   🌱8 ← 9 ←10 ←11
-========================= */
-
+   Самый сложный маршрут: 10 поворачиваемых труб.
+   Четыре дополнительные трубы не открывают карточки.
+========================================================= */
 {
-    cols:4,
-    rows:3,
+    cols:5,
+    rows:4,
 
     startIndex:0,
     startDirection:"E",
 
-    finishIndex:8,
-    finishIncoming:"E",
+    finishIndex:18,
+    finishIncoming:"W",
 
-    required:[
-        1,2,3,7,11,10,9
-    ],
+    required:[1,2,3,4,9,8,7,12,17,18],
 
     cells:[
-
         {type:"start"},
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:0
-        },
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:1
-        },
-
-        {
-            type:"corner",
-            target:["W","S"],
-            card:2
-        },
-
+        {type:"straight", target:["W","E"], card:0},
+        {type:"straight", target:["W","E"], card:1},
+        {type:"straight", target:["W","E"], card:2},
+        {type:"corner",   target:["W","S"], card:3},
 
         {type:"empty"},
         {type:"empty"},
+        {type:"corner",   target:["E","S"], card:6},
+        {type:"straight", target:["W","E"], card:5},
+        {type:"corner",   target:["N","W"], card:4},
+
+        {type:"empty"},
+        {type:"empty"},
+        {type:"straight", target:["N","S"], card:7},
+        {type:"empty"},
         {type:"empty"},
 
-        {
-            type:"straight",
-            target:["N","S"],
-            card:3
-        },
-
-
-        {type:"finish"},
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:6
-        },
-
-        {
-            type:"straight",
-            target:["W","E"],
-            card:5
-        },
-
-        {
-            type:"corner",
-            target:["N","W"],
-            card:4
-        }
-
+        {type:"empty"},
+        {type:"empty"},
+        {type:"corner",   target:["N","E"], card:8},
+        {type:"straight", target:["W","E"], card:9},
+        {type:"finish"}
     ]
-}
+},
+
+
 
 ];
 
@@ -1471,13 +1294,13 @@ function cornerWater(){
 function updateLevelIndicator(){
 
     levelText.textContent=
-        `Уровень ${currentLevel+1} из 4`;
+        `Уровень ${currentLevel+1} из ${levels.length}`;
 
 
     dots.innerHTML="";
 
 
-    for(let i=0;i<4;i++){
+    for(let i=0;i<levels.length;i++){
 
         const dot=
             document.createElement(
@@ -1512,78 +1335,35 @@ function updateLevelIndicator(){
 function createCards(level){
 
     leftPanel.innerHTML="";
-
     rightPanel.innerHTML="";
 
+    /* Количество картинок равно количеству труб:
+       уровень 1 = 6, уровень 2 = 8, уровень 3 = 10.
+       Половина карточек слева, половина справа. */
 
-    const pipeItems=
-        level.cells.filter(
-            item=>
-                item.type==="straight" ||
-                item.type==="corner"
-        );
+    const count=level.required.length;
+    const half=count/2;
 
+    for(let cardIndex=0; cardIndex<count; cardIndex++){
 
-    const count=
-        pipeItems.length;
+        const card=document.createElement("div");
 
+        card.className="speech-card";
+        card.dataset.card=cardIndex;
 
-    const leftCount=
-        Math.ceil(
-            count/2
-        );
+        card.innerHTML=`
+            <div class="card-cover">?</div>
+            <div class="card-emoji">
+                ${pictures[cardIndex] || "⭐"}
+            </div>
+        `;
 
-
-    pipeItems.forEach(
-        (item,index)=>{
-
-
-            const card=
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className=
-                "speech-card";
-
-
-            card.dataset.card=
-                item.card;
-
-
-            card.innerHTML=`
-
-                <div class="card-cover">
-                    ?
-                </div>
-
-                <div class="card-emoji">
-                    ${pictures[item.card] || "⭐"}
-                </div>
-
-            `;
-
-
-            if(index<leftCount){
-
-                leftPanel.appendChild(
-                    card
-                );
-
-            }
-
-            else{
-
-                rightPanel.appendChild(
-                    card
-                );
-
-            }
-
+        if(cardIndex<half){
+            leftPanel.appendChild(card);
+        }else{
+            rightPanel.appendChild(card);
         }
-    );
-
+    }
 }
 
 
@@ -1616,23 +1396,31 @@ function createGame(){
 
     createCards(level);
 
+    document.querySelectorAll(".speech-card").forEach(card=>{
+        if(level.required.length===8){
+            card.style.maxHeight="112px";
+            card.style.minHeight="62px";
+        }else if(level.required.length===10){
+            card.style.maxHeight="90px";
+            card.style.minHeight="52px";
+        }
+    });
+
 
     /* =========================
        РАЗМЕР ПОЛЯ
     ========================= */
 
-    board.style.gridTemplateColumns=
-        `repeat(
-            ${level.cols},
-            clamp(105px,10vw,150px)
-        )`;
+    const cellSize =
+        level.cols >= 5
+        ? "clamp(92px,8.4vw,132px)"
+        : "clamp(105px,10vw,150px)";
 
+    board.style.gridTemplateColumns=
+        `repeat(${level.cols}, ${cellSize})`;
 
     board.style.gridTemplateRows=
-        `repeat(
-            ${level.rows},
-            clamp(105px,10vw,150px)
-        )`;
+        `repeat(${level.rows}, ${cellSize})`;
 
 
     level.cells.forEach(
@@ -1962,9 +1750,11 @@ function updateCell(
     ========================= */
 
     const card=
-        document.querySelector(
+        Number.isInteger(item.card)
+        ? document.querySelector(
             `.speech-card[data-card="${item.card}"]`
-        );
+          )
+        : null;
 
 
     if(card){
@@ -2487,7 +2277,7 @@ function showWin(){
             "Все трубы починены!";
 
         winText.textContent=
-            "Ты прошёл все 4 уровня!";
+            "Ты прошёл все 3 уровня!";
 
         nextButton.textContent=
             "Играть ещё раз";
