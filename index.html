@@ -355,11 +355,11 @@ body{
 .pipe-image{
     position:absolute;
 
-    width:132%;
-    height:132%;
+    width:104%;
+    height:104%;
 
-    left:-16%;
-    top:-16%;
+    left:-2%;
+    top:-2%;
 
     object-fit:contain;
 
@@ -384,11 +384,11 @@ body{
 .water-layer{
     position:absolute;
 
-    width:132%;
-    height:132%;
+    width:104%;
+    height:104%;
 
-    left:-16%;
-    top:-16%;
+    left:-2%;
+    top:-2%;
 
     overflow:visible;
 
@@ -1414,8 +1414,8 @@ function createGame(){
 
     const cellSize =
         level.cols >= 5
-        ? "clamp(82px,7.5vw,118px)"
-        : "clamp(92px,8.6vw,132px)";
+        ? "clamp(96px,8.55vw,134px)"
+        : "clamp(102px,9.15vw,142px)";
 
     board.style.gridTemplateColumns=
         `repeat(${level.cols}, ${cellSize})`;
